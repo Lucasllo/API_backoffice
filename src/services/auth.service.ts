@@ -1,24 +1,89 @@
-import { Injectable } from '@nestjs/common';
+import { RecoverPasswordAuthDto } from './../dtos/recoverPasswordAuth.dto';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { LoginAuthDto } from '../dtos/login.dto';
 import { UserService } from './user.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userservice: UserService) {}
+  private issuer = 'login';
+  private audience = 'user';
 
-  create(loginAuthDto: LoginAuthDto) {
-    return 'This action adds a new auth';
+  constructor(
+    private readonly userservice: UserService,
+    private readonly jwtService: JwtService,
+  ) {}
+
+  checkToken(token: string) {
+    return this.checkInToken(token);
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  async login(loginAuthDto: LoginAuthDto) {
+    const user = await this.userservice.login(loginAuthDto);
+    return this.createToken((await user).id);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+  async recoverPassword(recoverPasswordAuthDto: RecoverPasswordAuthDto) {
+    const result = await this.userservice.recoverPassword(
+      recoverPasswordAuthDto,
+    );
+    const codigo = Math.floor(1000 + Math.random() * 9000);
+
+    return this.createTokenRecoverPassword(codigo, (await result).id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  validateCode(code: string, passwordCode: string, id: number) {
+    if (code != passwordCode) {
+      throw new BadRequestException('Codigo invalido');
+    }
+
+    return this.createToken(id);
+  }
+
+  private createToken(id: number) {
+    return {
+      token: this.jwtService.sign(
+        {},
+        {
+          expiresIn: '7 days',
+          subject: JSON.stringify({
+            user: String(id),
+          }),
+          issuer: this.issuer,
+          audience: this.audience,
+        },
+      ),
+    };
+  }
+
+  private checkInToken(token: string) {
+    try {
+      const data = this.jwtService.verify(token, {
+        audience: this.audience,
+        issuer: this.issuer,
+      });
+      return data;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
+
+  private createTokenRecoverPassword(codeRecover: number, id) {
+    return {
+      token: this.jwtService.sign(
+        {
+          codeRecover: codeRecover,
+        },
+        {
+          expiresIn: '1 day',
+          subject: JSON.stringify({
+            codeRecover: String(codeRecover),
+            user: String(id),
+          }),
+          issuer: this.issuer,
+          audience: this.audience,
+        },
+      ),
+    };
   }
 }

@@ -7,7 +7,7 @@ export class LoginAuthDto {
     description: 'Email do usuario',
   })
   @IsString()
-  login: string;
+  email: string;
 
   @ApiProperty({
     example: '123456',
@@ -21,12 +21,12 @@ export class LoginAuthDto {
     minSymbols: 1,
     minUppercase: 1,
   })
-  senha: string;
+  password: string;
 
   @ApiProperty({
     example: '2312',
     description: 'Codigo da empresa',
   })
   @IsString()
-  codigoEmpresa: string;
+  code: string;
 }

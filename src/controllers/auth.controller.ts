@@ -1,28 +1,38 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Param, Post, Body, UseGuards } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
-import { LoginAuthDto } from '../dtos/login.dto';
-
+import { Public } from 'src/decorators/public.decorator';
+import { LoginAuthDto } from 'src/dtos/login.dto';
+import { RecoverPasswordAuthDto } from 'src/dtos/recoverPasswordAuth.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { User } from 'src/decorators/user.decorator';
+import { UserDto } from 'src/dtos/user.dto';
+import { PasswordCode } from 'src/decorators/passwordCode.decorator';
+import { RoleGuard } from 'src/guard/role.guard';
+@Public()
+@UseGuards(RoleGuard)
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  create(@Body() createAuthDto: LoginAuthDto) {
-    return this.authService.create(createAuthDto);
+  @Post('login')
+  login(@Body() loginAuthDto: LoginAuthDto): Promise<{ token: string }> {
+    return this.authService.login(loginAuthDto);
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
+  @Post('recuperaSenha')
+  recuperaSenha(@Body() recoverPasswordAuthDto: RecoverPasswordAuthDto) {
+    return this.authService.recoverPassword(recoverPasswordAuthDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  // @Roles(Role.Recover)
+  @ApiBearerAuth('access-token')
+  @Post('validaCodigo/:codigo')
+  validaCodigo(
+    @Param('codigo') code: string,
+    @User() user: UserDto,
+    @PasswordCode() passwordCode: string,
+  ) {
+    return this.authService.validateCode(code, passwordCode, user.id);
   }
 }

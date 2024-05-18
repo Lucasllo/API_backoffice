@@ -1,5 +1,3 @@
-import { Transform } from 'class-transformer';
-import { UserDto } from 'src/dtos/user.dto';
 import {
   Column,
   CreateDateColumn,
@@ -8,8 +6,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
-export class User {
+@Entity({ name: 'UserBackOffice' })
+export class UserEntity {
   @PrimaryGeneratedColumn({
     unsigned: true,
   })
@@ -41,16 +39,21 @@ export class User {
   updatedAt: string;
 
   @Column({
-    enum: [1, 2, 3, 4],
+    enum: [1, 2, 3, 4, 5],
   })
   role: number;
 
-  @Transform(() => UserDto)
-  toDto(): UserDto {
-    return {
-      name: this.name,
-      email: this.email,
-      password: this.password,
-    };
-  }
+  @Column()
+  userAuthorized: number;
+
+  @Column({
+    length: 11,
+  })
+  phone: string;
+
+  @Column()
+  code: string;
+
+  @Column()
+  active: boolean;
 }
