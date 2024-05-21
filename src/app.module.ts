@@ -7,6 +7,12 @@ import { APP_GUARD } from '@nestjs/core';
 import { UserEntity } from './entities/user.entity';
 import { AuthModule } from './modules/auth.module';
 import { UserModule } from './modules/user.module';
+import { UserClientModule } from './modules/userClient.module';
+import { ProductModule } from './modules/product.module';
+import { ShoppingModule } from './modules/shopping.module';
+import { CategoryModule } from './modules/category.module';
+import { CardModule } from './modules/card.module';
+import { AddressModule } from './modules/address.module';
 
 @Module({
   imports: [
@@ -23,6 +29,12 @@ import { UserModule } from './modules/user.module';
     }),
     AuthModule,
     UserModule,
+    UserClientModule,
+    ProductModule,
+    ShoppingModule,
+    CategoryModule,
+    CardModule,
+    AddressModule,
   ],
   controllers: [],
   providers: [
