@@ -7,12 +7,14 @@ import { LoginAuthDto } from '../dtos/login.dto';
 import { ChangePasswordAuthDto } from 'src/dtos/changePasswordAuth.dto';
 import { RecoverPasswordAuthDto } from 'src/dtos/recoverPasswordAuth.dto';
 import * as bcrypt from 'bcrypt';
+import { MailingService } from './mailingService';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly userMapper: UserMapper,
+    private readonly mailingService: MailingService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {

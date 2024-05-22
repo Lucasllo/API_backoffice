@@ -2,7 +2,7 @@ import * as nodemailer from 'nodemailer';
 import { Injectable } from '@nestjs/common';
 import * as handlebars from 'handlebars';
 import * as fs from 'fs';
-import * as path from 'path';
+import { join } from 'path';
 
 @Injectable()
 export class MailingService {
@@ -35,8 +35,8 @@ export class MailingService {
   }
 
   private loadTemplate(templateName: string): handlebars.TemplateDelegate {
-    const templatesFolderPath = path.join(__dirname, './templates');
-    const templatePath = path.join(templatesFolderPath, templateName);
+    const templatesFolderPath = join(__dirname, '../../templates');
+    const templatePath = join(templatesFolderPath, templateName);
 
     const templateSource = fs.readFileSync(templatePath, 'utf8');
     return handlebars.compile(templateSource);

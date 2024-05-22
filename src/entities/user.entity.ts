@@ -33,10 +33,10 @@ export class UserEntity {
   password: string;
 
   @CreateDateColumn()
-  createdAt: string;
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: string;
+  updatedAt: Date;
 
   @Column({
     enum: [1, 2, 3, 4, 5],
