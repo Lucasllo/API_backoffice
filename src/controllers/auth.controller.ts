@@ -21,6 +21,13 @@ export class AuthController {
     return this.authService.login(loginAuthDto);
   }
 
+  @Post('loginDelivery')
+  LoginDeliveryDto(
+    @Body() loginAuthDto: LoginAuthDto,
+  ): Promise<LoginReturnDto> {
+    return this.authService.login(loginAuthDto);
+  }
+
   @Post('recuperaSenha')
   recuperaSenha(@Body() recoverPasswordAuthDto: RecoverPasswordAuthDto) {
     return this.authService.recoverPassword(recoverPasswordAuthDto);

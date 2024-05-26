@@ -31,6 +31,7 @@ export class UserService {
     user.role = createUserDto.role;
     user.name = createUserDto.name;
     user.email = createUserDto.email;
+    user.createdAt = new Date();
     try {
       return this.userMapper.toDTO(await this.userRepository.create(user));
     } catch (error) {

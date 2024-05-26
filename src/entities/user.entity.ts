@@ -50,11 +50,11 @@ export class UserEntity {
   @Column({
     length: 11,
   })
-  phone: string;
+  phoneNumber: string;
 
   @Column()
   storeCode: string;
 
-  @Column()
+  @Column({ default: false })
   active: boolean;
 }

@@ -19,6 +19,8 @@ import { CategoryEntity } from './entities/category.entity';
 import { ShoppingEntity } from './entities/shopping.entity';
 import { CardEntity } from './entities/card.entity';
 import { AddressEntity } from './entities/address.entity';
+import { UserDeliveryModule } from './modules/userDelivery.module';
+import { UserDeliveryEntity } from './entities/userDelivery.entity';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -30,24 +32,6 @@ import { AddressEntity } from './entities/address.entity';
     CategoryModule,
     CardModule,
     AddressModule,
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   host: 'localhost',
-    //   port: 3306,
-    //   username: 'root',
-    //   password: 'Digionze11.',
-    //   database: 'ifarma',
-    //   entities: [
-    //     UserEntity,
-    //     UserClientEntity,
-    //     ProductEntity,
-    //     CategoryEntity,
-    //     ShoppingEntity,
-    //     CardEntity,
-    //     AddressEntity,
-    //   ],
-    //   synchronize: false,
-    // }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
@@ -63,9 +47,11 @@ import { AddressEntity } from './entities/address.entity';
         ShoppingEntity,
         CardEntity,
         AddressEntity,
+        UserDeliveryEntity,
       ],
       synchronize: process.env.ENV === 'developmen',
     }),
+    UserDeliveryModule,
   ],
   controllers: [],
   providers: [

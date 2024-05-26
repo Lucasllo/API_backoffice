@@ -10,7 +10,7 @@ export class UserMapper {
       user.email = entity.email;
       user.name = entity.name;
       user.password = entity.password;
-      user.phone = entity.phone;
+      user.phone = entity.phoneNumber;
     }
 
     return user;
@@ -24,7 +24,7 @@ export class UserMapper {
       user.email = dto.email;
       user.name = dto.name;
       user.password = dto.password;
-      user.phone = dto.phone;
+      user.phoneNumber = dto.phone;
       if (dto.id) {
         user.id = dto.id;
       }
