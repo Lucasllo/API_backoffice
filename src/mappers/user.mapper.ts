@@ -11,6 +11,7 @@ export class UserMapper {
       user.name = entity.name;
       user.password = entity.password;
       user.phone = entity.phoneNumber;
+      user.role = entity.role;
     }
 
     return user;
@@ -25,6 +26,7 @@ export class UserMapper {
       user.name = dto.name;
       user.password = dto.password;
       user.phoneNumber = dto.phone;
+      user.role = dto.role;
       if (dto.id) {
         user.id = dto.id;
       }

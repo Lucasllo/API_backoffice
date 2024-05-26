@@ -47,4 +47,7 @@ export class UserDto {
   })
   @IsString()
   phone: string;
+
+  @IsString()
+  role: string;
 }

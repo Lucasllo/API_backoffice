@@ -4,6 +4,7 @@ import { LoginAuthDto } from '../dtos/login/login.dto';
 import { UserService } from './user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginReturnDto } from 'src/dtos/login/loginReturn.dto';
+import { MailingService } from './mailingService';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +14,7 @@ export class AuthService {
   constructor(
     private readonly userservice: UserService,
     private readonly jwtService: JwtService,
+    private readonly mailingService: MailingService,
   ) {}
 
   checkToken(token: string) {
@@ -31,15 +33,27 @@ export class AuthService {
     );
     const codigo = Math.floor(1000 + Math.random() * 9000);
 
+    //enviar email
+    //this.mailingService
+
     return this.createTokenRecoverPassword(codigo, (await result).id);
   }
 
-  validateCode(code: string, passwordCode: string, id: number) {
+  async validateCode(
+    code: string,
+    passwordCode: string,
+    id: number,
+  ): Promise<LoginReturnDto> {
     if (code != passwordCode) {
       throw new BadRequestException('Codigo invalido');
     }
-
-    return this.createToken(id);
+    try {
+      const user = await this.userservice.findbyId(id);
+      const token = this.createToken(id);
+      return { code: user.storeCode, role: user.role, ...token };
+    } catch (error) {
+      throw new BadRequestException('Usuario não encontrado');
+    }
   }
 
   private createToken(id: number) {

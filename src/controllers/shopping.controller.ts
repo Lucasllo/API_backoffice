@@ -1,9 +1,11 @@
-import { Controller, Get, Param, Delete, Body, Post } from '@nestjs/common';
+import { Controller, Get, Param, Body, Post, UseGuards } from '@nestjs/common';
 import { ShoppingService } from '../services/shopping.service';
 import { ShoppingQueryPaginateDto } from 'src/dtos/shopping/shoppingQueryPaginate.dto';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/role.enum';
+import { RoleGuard } from 'src/guard/role.guard';
 
+@UseGuards(RoleGuard)
 @Controller('shopping')
 export class ShoppingController {
   constructor(private readonly shoppingService: ShoppingService) {}
@@ -20,8 +22,9 @@ export class ShoppingController {
     return this.shoppingService.findOne(+id);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.shoppingService.remove(+id);
-  }
+  // @Roles(Role.Admin)
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.shoppingService.remove(+id);
+  // }
 }

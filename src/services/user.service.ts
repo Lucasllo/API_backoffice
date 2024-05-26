@@ -8,6 +8,8 @@ import { ChangePasswordAuthDto } from 'src/dtos/password/changePasswordAuth.dto'
 import { RecoverPasswordAuthDto } from 'src/dtos/password/recoverPasswordAuth.dto';
 import * as bcrypt from 'bcrypt';
 import { MailingService } from './mailingService';
+import { UserQueryPaginateDto } from 'src/dtos/user/userQueryPaginate.dto';
+import { UserDto } from 'src/dtos/user/user.dto';
 
 @Injectable()
 export class UserService {
@@ -39,6 +41,22 @@ export class UserService {
     }
   }
 
+  async findAll(query: UserQueryPaginateDto) {
+    try {
+      return this.userRepository.findAll(query);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async authorizeUser(code: number, user: UserDto) {
+    try {
+      return this.userRepository.authorizeUser(code, user.id);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
   async updatePassword(
     id: number,
     changePasswordAuthDto: ChangePasswordAuthDto,
@@ -58,6 +76,10 @@ export class UserService {
 
   async findOne(id: number) {
     return this.userMapper.toDTO(await this.userRepository.findById(id));
+  }
+
+  async findbyId(id: number) {
+    return await this.userRepository.findById(id);
   }
 
   login(loginAuthDto: LoginAuthDto) {

@@ -11,6 +11,6 @@ import { MailingService } from 'src/services/mailingService';
   imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UserController],
   providers: [UserService, UserMapper, UserRepository, MailingService],
-  exports: [UserService],
+  exports: [UserService, MailingService],
 })
 export class UserModule {}

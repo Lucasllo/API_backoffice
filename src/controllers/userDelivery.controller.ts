@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { UserDeliveryService } from '../services/userDelivery.service';
 import { CreateUserDeliveryDto } from 'src/dtos/user/createUserDelivery.dto';
 import { Public } from 'src/decorators/public.decorator';
@@ -21,15 +13,15 @@ export class UserDeliveryController {
     return this.userDeliveryService.create(createUserDeliveryDto);
   }
 
-  @Get()
-  findAll() {
-    return this.userDeliveryService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.userDeliveryService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userDeliveryService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.userDeliveryService.findOne(+id);
+  // }
 
   // @Patch(':id')
   // update(
@@ -39,8 +31,8 @@ export class UserDeliveryController {
   //   return this.userDeliveryService.update(+id, updateUserDeliveryDto);
   // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userDeliveryService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.userDeliveryService.remove(+id);
+  // }
 }
