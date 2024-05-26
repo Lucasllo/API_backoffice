@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { ShoppingRepository } from '../repositories/shopping.repository';
+import { ShoppingQueryPaginateDto } from 'src/dtos/shopping/shoppingQueryPaginate.dto';
 
 @Injectable()
 export class ShoppingService {
-  findAll() {
-    return `This action returns all shopping`;
+  constructor(private readonly shoppingRepository: ShoppingRepository) {}
+
+  findAll(query: ShoppingQueryPaginateDto) {
+    return this.shoppingRepository.findAll(query);
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} shopping`;
+    return this.shoppingRepository.findOne(id);
   }
 
   remove(id: number) {

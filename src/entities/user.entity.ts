@@ -1,3 +1,4 @@
+import { Role } from 'src/enums/role.enum';
 import {
   Column,
   CreateDateColumn,
@@ -39,9 +40,9 @@ export class UserEntity {
   updatedAt: Date;
 
   @Column({
-    enum: [1, 2, 3, 4, 5],
+    enum: [Role],
   })
-  role: number;
+  role: string;
 
   @Column()
   userAuthorized: number;
@@ -52,7 +53,7 @@ export class UserEntity {
   phone: string;
 
   @Column()
-  code: string;
+  storeCode: string;
 
   @Column()
   active: boolean;

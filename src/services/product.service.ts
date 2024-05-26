@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { ProductRepository } from 'src/repositories/product.repository';
 
 @Injectable()
 export class ProductService {
+  constructor(private readonly productRepository: ProductRepository) {}
+
   findAll() {
     return `This action returns all product`;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} product`;
+    return this.productRepository.findByShopping(id);
   }
 
   remove(id: number) {

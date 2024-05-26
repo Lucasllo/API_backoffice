@@ -1,6 +1,6 @@
 import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { UserService } from '../services/user.service';
-import { CreateUserDto } from 'src/dtos/createUser.dto';
+import { CreateUserDto } from 'src/dtos/user/createUser.dto';
 import { Public } from 'src/decorators/public.decorator';
 import { ApiTags } from '@nestjs/swagger';
 import { RoleGuard } from 'src/guard/role.guard';

@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { tipoCartao } from 'src/enums/tipoCartao.enum';
 import { UserClientEntity } from './userClient.entity';
 
@@ -36,5 +42,6 @@ export class CardEntity {
     eager: true,
     cascade: true,
   })
+  @JoinColumn({ name: 'userEntityId' })
   userEntity: UserClientEntity;
 }

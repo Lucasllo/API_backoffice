@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UserClientEntity } from './userClient.entity';
 
 @Entity({
@@ -32,5 +38,6 @@ export class AddressEntity {
   pontoReferencia: string;
 
   @ManyToOne(() => UserClientEntity, (user) => user.addressEntity)
+  @JoinColumn({ name: 'userEntityId' })
   userEntity: UserClientEntity;
 }

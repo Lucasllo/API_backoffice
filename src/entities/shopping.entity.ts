@@ -3,8 +3,8 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  JoinTable,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { solicitacaoCompraStatus } from 'src/enums/solicitacaoCompraStatus.enum';
@@ -41,12 +41,18 @@ export class ShoppingEntity {
   verificationCode: string;
 
   @Column()
+  storeCode: string;
+
+  @Column()
   value: string;
 
   @Column({
     default: modoPagamento.Credit,
   })
   modoPagamento: number;
+
+  @Column({ name: 'userEntityId' })
+  userClientId: number;
 
   @OneToMany(
     () => ProductEntity,
@@ -55,13 +61,13 @@ export class ShoppingEntity {
       cascade: true,
     },
   )
-  @JoinTable()
   productEntity: ProductEntity[];
 
   @ManyToOne(
     () => UserClientEntity,
-    (userEntity) => userEntity.shoppingEntity,
+    (userClientEntity) => userClientEntity.shoppingEntity,
     {},
   )
-  userEntity: UserClientEntity;
+  @JoinColumn({ name: 'userEntityId' })
+  userClientEntity: UserClientEntity;
 }

@@ -1,13 +1,14 @@
 import { Controller, Param, Post, Body, UseGuards } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { Public } from 'src/decorators/public.decorator';
-import { LoginAuthDto } from 'src/dtos/login.dto';
-import { RecoverPasswordAuthDto } from 'src/dtos/recoverPasswordAuth.dto';
+import { LoginAuthDto } from 'src/dtos/login/login.dto';
+import { RecoverPasswordAuthDto } from 'src/dtos/password/recoverPasswordAuth.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/decorators/user.decorator';
-import { UserDto } from 'src/dtos/user.dto';
+import { UserDto } from 'src/dtos/user/user.dto';
 import { PasswordCode } from 'src/decorators/passwordCode.decorator';
 import { RoleGuard } from 'src/guard/role.guard';
+import { LoginReturnDto } from 'src/dtos/login/loginReturn.dto';
 @Public()
 @UseGuards(RoleGuard)
 @ApiTags('auth')
@@ -16,7 +17,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  login(@Body() loginAuthDto: LoginAuthDto): Promise<{ token: string }> {
+  login(@Body() loginAuthDto: LoginAuthDto): Promise<LoginReturnDto> {
     return this.authService.login(loginAuthDto);
   }
 

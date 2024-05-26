@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { ShoppingEntity } from './shopping.entity';
 import { CategoryEntity } from './category.entity';
 
@@ -32,18 +38,23 @@ export class ProductEntity {
   @Column()
   name: string;
 
+  @Column({ name: 'categoryEntityId' })
+  categoryId: number;
+
+  @Column({ name: 'shoppingEntityId' })
+  shoppingId: number;
+
   @ManyToOne(
     () => CategoryEntity,
     (categoryEntity) => categoryEntity.productEntity,
   )
+  @JoinColumn({ name: 'categoryEntityId' })
   categoryEntity: CategoryEntity;
 
   @ManyToOne(
     () => ShoppingEntity,
     (shoppingEntity) => shoppingEntity.productEntity,
-    {
-      eager: true,
-    },
   )
+  @JoinColumn({ name: 'shoppingEntityId' })
   shoppingEntity: ShoppingEntity;
 }

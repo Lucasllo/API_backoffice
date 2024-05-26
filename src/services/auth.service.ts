@@ -1,8 +1,9 @@
-import { RecoverPasswordAuthDto } from './../dtos/recoverPasswordAuth.dto';
+import { RecoverPasswordAuthDto } from '../dtos/password/recoverPasswordAuth.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { LoginAuthDto } from '../dtos/login.dto';
+import { LoginAuthDto } from '../dtos/login/login.dto';
 import { UserService } from './user.service';
 import { JwtService } from '@nestjs/jwt';
+import { LoginReturnDto } from 'src/dtos/login/loginReturn.dto';
 
 @Injectable()
 export class AuthService {
@@ -18,9 +19,10 @@ export class AuthService {
     return this.checkInToken(token);
   }
 
-  async login(loginAuthDto: LoginAuthDto) {
+  async login(loginAuthDto: LoginAuthDto): Promise<LoginReturnDto> {
     const user = await this.userservice.login(loginAuthDto);
-    return this.createToken((await user).id);
+    const token = this.createToken((await user).id);
+    return { code: user.storeCode, role: user.role, ...token };
   }
 
   async recoverPassword(recoverPasswordAuthDto: RecoverPasswordAuthDto) {

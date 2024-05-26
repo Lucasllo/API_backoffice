@@ -28,5 +28,5 @@ export class LoginAuthDto {
     description: 'Codigo da empresa',
   })
   @IsString()
-  code: string;
+  storeCode: string;
 }

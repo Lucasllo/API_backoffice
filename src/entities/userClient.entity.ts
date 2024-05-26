@@ -56,7 +56,7 @@ export class UserClientEntity {
 
   @OneToMany(
     () => ShoppingEntity,
-    (shoppingEntity) => shoppingEntity.userEntity,
+    (shoppingEntity) => shoppingEntity.userClientEntity,
   )
   shoppingEntity: ShoppingEntity[];
 

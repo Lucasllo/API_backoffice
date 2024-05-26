@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LoginAuthDto } from 'src/dtos/login.dto';
+import { LoginAuthDto } from 'src/dtos/login/login.dto';
 import { UserEntity } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { UpdateUserDto } from 'src/dtos/updateUser.dto';
+import { UpdateUserDto } from 'src/dtos/user/updateUser.dto';
 
 @Injectable()
 export class UserRepository {
@@ -14,7 +14,7 @@ export class UserRepository {
   ) {}
 
   public async create(user: UserEntity): Promise<UserEntity> {
-    return this.userRepository.save(user);
+    return await this.userRepository.save(user);
   }
 
   public async updatePassword(
@@ -49,12 +49,12 @@ export class UserRepository {
   public async login({
     email,
     password,
-    code,
+    storeCode,
   }: LoginAuthDto): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: {
         email,
-        code,
+        storeCode,
       },
     });
 
