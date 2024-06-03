@@ -1,10 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LoginAuthDto } from 'src/dtos/login/login.dto';
-import { UserEntity } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { UpdateUserDto } from 'src/dtos/user/updateUser.dto';
 import { UserDeliveryEntity } from 'src/entities/userDelivery.entity';
 import { CreateUserDeliveryDto } from 'src/dtos/user/createUserDelivery.dto';
 
@@ -48,22 +46,20 @@ export class UserDeliveryRepository {
     });
   }
 
-  // public async login({
-  //   email,
-  //   password,
-  //   storeCode,
-  // }: LoginAuthDto): Promise<UserEntity> {
-  //   const user = await this.userDeliveryRepository.findOne({
-  //     where: {
-  //       email,
-  //       storeCode,
-  //     },
-  //   });
+  public async login({
+    email,
+    password,
+  }: Partial<LoginAuthDto>): Promise<UserDeliveryEntity> {
+    const user = await this.userDeliveryRepository.findOne({
+      where: {
+        email,
+      },
+    });
 
-  //   if (user != null && (await bcrypt.compare(password, user.password))) {
-  //     return user;
-  //   } else {
-  //     throw new UnauthorizedException('Email e/ou senha incorretos.');
-  //   }
-  // }
+    if (user != null && (await bcrypt.compare(password, user.password))) {
+      return user;
+    } else {
+      throw new UnauthorizedException('Email e/ou senha incorretos.');
+    }
+  }
 }

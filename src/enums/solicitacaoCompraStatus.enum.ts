@@ -3,4 +3,6 @@ export enum solicitacaoCompraStatus {
   Accepted = 2,
   Refused = 3,
   Concluded = 4,
+  SeparateRequest = 5,
+  WaitingMotoboy = 6,
 }

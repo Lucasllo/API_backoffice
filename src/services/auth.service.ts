@@ -28,28 +28,26 @@ export class AuthService {
   }
 
   async recoverPassword(recoverPasswordAuthDto: RecoverPasswordAuthDto) {
-    const result = await this.userservice.recoverPassword(
-      recoverPasswordAuthDto,
-    );
-    const codigo = Math.floor(1000 + Math.random() * 9000);
+    try {
+      const user = await this.userservice.recoverPassword(
+        recoverPasswordAuthDto,
+      );
+      //salvar codigo criado no banco
+      const codigo = Math.floor(1000 + Math.random() * 9000);
 
-    //enviar email
-    //this.mailingService
+      await this.userservice.setValidCode(user.id, codigo);
 
-    return this.createTokenRecoverPassword(codigo, (await result).id);
+      //enviar email
+      //this.mailingService
+    } catch (error) {
+      throw new BadRequestException('Usuario invalido');
+    }
   }
 
-  async validateCode(
-    code: string,
-    passwordCode: string,
-    id: number,
-  ): Promise<LoginReturnDto> {
-    if (code != passwordCode) {
-      throw new BadRequestException('Codigo invalido');
-    }
+  async validateCode(code: string): Promise<LoginReturnDto> {
     try {
-      const user = await this.userservice.findbyId(id);
-      const token = this.createToken(id);
+      const user = await this.userservice.findByValidCode(+code);
+      const token = this.createTokenRecoverPassword(+code, user.id);
       return { code: user.storeCode, role: user.role, ...token };
     } catch (error) {
       throw new BadRequestException('Usuario não encontrado');
@@ -61,7 +59,7 @@ export class AuthService {
       token: this.jwtService.sign(
         {},
         {
-          expiresIn: '7 days',
+          expiresIn: '1 days',
           subject: JSON.stringify({
             user: String(id),
           }),

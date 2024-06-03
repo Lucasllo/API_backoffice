@@ -3,14 +3,9 @@ import { AuthService } from '../services/auth.service';
 import { Public } from 'src/decorators/public.decorator';
 import { LoginAuthDto } from 'src/dtos/login/login.dto';
 import { RecoverPasswordAuthDto } from 'src/dtos/password/recoverPasswordAuth.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { User } from 'src/decorators/user.decorator';
-import { UserDto } from 'src/dtos/user/user.dto';
-import { PasswordCode } from 'src/decorators/passwordCode.decorator';
+import { ApiTags } from '@nestjs/swagger';
 import { RoleGuard } from 'src/guard/role.guard';
 import { LoginReturnDto } from 'src/dtos/login/loginReturn.dto';
-import { Roles } from 'src/decorators/roles.decorator';
-import { Role } from 'src/enums/role.enum';
 @Public()
 @UseGuards(RoleGuard)
 @ApiTags('auth')
@@ -35,14 +30,8 @@ export class AuthController {
     return this.authService.recoverPassword(recoverPasswordAuthDto);
   }
 
-  @Roles(Role.Recover)
-  @ApiBearerAuth('access-token')
   @Post('validaCodigo/:codigo')
-  validaCodigo(
-    @Param('codigo') code: string,
-    @User() user: UserDto,
-    @PasswordCode() passwordCode: string,
-  ): Promise<LoginReturnDto> {
-    return this.authService.validateCode(code, passwordCode, user.id);
+  validaCodigo(@Param('codigo') code: string): Promise<LoginReturnDto> {
+    return this.authService.validateCode(code);
   }
 }

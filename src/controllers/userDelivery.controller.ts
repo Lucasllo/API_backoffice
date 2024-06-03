@@ -8,7 +8,7 @@ export class UserDeliveryController {
   constructor(private readonly userDeliveryService: UserDeliveryService) {}
 
   @Public()
-  @Post()
+  @Post('create')
   create(@Body() createUserDeliveryDto: CreateUserDeliveryDto) {
     return this.userDeliveryService.create(createUserDeliveryDto);
   }

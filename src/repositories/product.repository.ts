@@ -12,6 +12,7 @@ export class ProductRepository {
 
   public async findByShopping(id: number) {
     return this.productRepository.find({
+      relations: ['categoryEntity'],
       where: {
         shoppingId: id,
       },

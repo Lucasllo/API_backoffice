@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ShoppingPaginateDto } from 'src/dtos/shopping/shoppingPaginate.dto';
 import { ShoppingQueryPaginateDto } from 'src/dtos/shopping/shoppingQueryPaginate.dto';
 import { ShoppingEntity } from 'src/entities/shopping.entity';
+import { solicitacaoCompraStatus } from 'src/enums/solicitacaoCompraStatus.enum';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -21,6 +22,7 @@ export class ShoppingRepository {
     const storeCode = query.storeCode;
 
     const [result, total] = await this.shoppingRepository.findAndCount({
+      relations: ['userClientEntity'],
       where: { storeCode },
       order,
       take: take,
@@ -33,11 +35,17 @@ export class ShoppingRepository {
     };
   }
 
-  public async findOne(id: number) {
+  public findOne(id: number) {
     return this.shoppingRepository.findOne({
       where: {
         id,
       },
     });
+  }
+
+  public async updateStatus(codeStatus: solicitacaoCompraStatus, id: number) {
+    const shopping = await this.findOne(id);
+    shopping.status = codeStatus;
+    return await this.shoppingRepository.save(shopping);
   }
 }

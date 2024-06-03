@@ -55,6 +55,12 @@ export class UserEntity {
   @Column()
   storeCode: string;
 
-  @Column({ default: false })
+  @Column({ default: true })
   active: boolean;
+
+  @Column({ default: false })
+  authorized: boolean;
+
+  @Column()
+  validCode: number;
 }

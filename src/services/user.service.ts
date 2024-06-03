@@ -82,6 +82,14 @@ export class UserService {
     return await this.userRepository.findById(id);
   }
 
+  async findByValidCode(validCode: number) {
+    return await this.userRepository.findByValidCode(validCode);
+  }
+
+  async setValidCode(id: number, validCode: number) {
+    return await this.userRepository.setValidCode(id, validCode);
+  }
+
   login(loginAuthDto: LoginAuthDto) {
     return this.userRepository.login(loginAuthDto);
   }

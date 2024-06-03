@@ -9,13 +9,14 @@ import {
 import { UserService } from '../services/user.service';
 import { CreateUserDto } from 'src/dtos/user/createUser.dto';
 import { Public } from 'src/decorators/public.decorator';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { RoleGuard } from 'src/guard/role.guard';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/role.enum';
 import { UserQueryPaginateDto } from 'src/dtos/user/userQueryPaginate.dto';
 import { User } from 'src/decorators/user.decorator';
 import { UserDto } from 'src/dtos/user/user.dto';
+import { ChangePasswordAuthDto } from 'src/dtos/password/changePasswordAuth.dto';
 
 // @Roles(Role.Admin, Role.User)
 @UseGuards(RoleGuard)
@@ -41,6 +42,16 @@ export class UserController {
   @Roles(Role.Admin)
   authorizeUser(@Param('id') code: string, @User() user: UserDto) {
     return this.userService.authorizeUser(+code, user);
+  }
+
+  @Roles(Role.Recover)
+  @ApiBearerAuth('access-token')
+  @Post('mudaSenha')
+  mudaSenha(
+    @User() user: UserDto,
+    @Body() changePasswordAuthDto: ChangePasswordAuthDto,
+  ) {
+    return this.userService.updatePassword(user.id, changePasswordAuthDto);
   }
 
   // @Delete(':id')

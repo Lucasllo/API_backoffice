@@ -28,10 +28,10 @@ export class UserDeliveryEntity {
   @Column()
   validatedEmail: boolean;
 
-  // @Column({
-  //   length: 127,
-  // })
-  // password: string;
+  @Column({
+    length: 127,
+  })
+  password: string;
 
   @CreateDateColumn()
   createdAt: Date;

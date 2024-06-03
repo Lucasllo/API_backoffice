@@ -20,7 +20,18 @@ export class UserRepository {
   ) {}
 
   public async create(user: UserEntity): Promise<UserEntity> {
-    return await this.userRepository.save(user);
+    const newUser = await this.userRepository.findOne({
+      where: {
+        email: user.email,
+        storeCode: user.storeCode,
+      },
+    });
+
+    if (newUser == null) {
+      return await this.userRepository.save(user);
+    } else {
+      throw new BadRequestException('Email invalido.');
+    }
   }
 
   public async updatePassword(
@@ -42,6 +53,43 @@ export class UserRepository {
         id,
       },
     });
+  }
+
+  public async findByValidCode(validCode: number): Promise<UserEntity> {
+    const user = await this.userRepository.findOne({
+      where: {
+        validCode,
+      },
+    });
+
+    await this.userRepository.update(
+      {
+        id: user.id,
+      },
+      { validCode: null },
+    );
+
+    return user;
+  }
+
+  public async setValidCode(
+    id: number,
+    validCode: number,
+  ): Promise<UserEntity> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    await this.userRepository.update(
+      {
+        id: user.id,
+      },
+      { validCode: validCode },
+    );
+
+    return user;
   }
 
   public async findAll(query: UserQueryPaginateDto): Promise<UserPaginateDto> {
@@ -82,7 +130,7 @@ export class UserRepository {
     );
   }
 
-  public async findByEmail(email: string): Promise<UserEntity> {
+  public findByEmail(email: string): Promise<UserEntity> {
     return this.userRepository.findOne({
       where: {
         email,
@@ -99,7 +147,7 @@ export class UserRepository {
       where: {
         email,
         storeCode,
-        active: true,
+        authorized: true,
       },
     });
 
