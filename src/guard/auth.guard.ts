@@ -3,12 +3,14 @@ import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
+import { UserDeliveryService } from 'src/services/userDelivery.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
+    private readonly userDeliveryService: UserDeliveryService,
     private readonly reflect: Reflector,
   ) {}
 
@@ -31,6 +33,10 @@ export class AuthGuard implements CanActivate {
       if (data.codeRecover != undefined) {
         request.user = await this.userService.findOne(Number(data.user));
         request.codeRecover = data.codeRecover;
+      } else if (data.userDelivery != undefined) {
+        request.userDelivery = await this.userDeliveryService.findOne(
+          Number(data.userDelivery),
+        );
       } else {
         request.user = await this.userService.findOne(Number(data.user));
       }

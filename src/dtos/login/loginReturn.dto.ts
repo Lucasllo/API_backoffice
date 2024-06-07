@@ -7,7 +7,7 @@ export class LoginReturnDto {
     description: 'Codigo da Farmacia',
   })
   @IsString()
-  code: string;
+  code?: string;
 
   @ApiProperty({
     example: '1',

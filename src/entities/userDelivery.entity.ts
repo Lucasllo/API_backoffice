@@ -3,9 +3,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { DeliveryQueueEntity } from './deliveryQueue.entity';
 
 @Entity({ name: 'userdelivery' })
 export class UserDeliveryEntity {
@@ -62,4 +64,14 @@ export class UserDeliveryEntity {
 
   @Column({ default: false })
   active: boolean;
+
+  @Column()
+  validCode: number;
+
+  @OneToMany(
+    () => DeliveryQueueEntity,
+    (deliveryQueueEntity) => deliveryQueueEntity.userDeliveryEntity,
+    {},
+  )
+  deliveryQueueEntity: DeliveryQueueEntity;
 }

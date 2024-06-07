@@ -22,7 +22,7 @@ export class AuthController {
   LoginDeliveryDto(
     @Body() loginAuthDto: LoginAuthDto,
   ): Promise<LoginReturnDto> {
-    return this.authService.login(loginAuthDto);
+    return this.authService.loginDelivery(loginAuthDto);
   }
 
   @Post('recuperaSenha')
@@ -33,5 +33,17 @@ export class AuthController {
   @Post('validaCodigo/:codigo')
   validaCodigo(@Param('codigo') code: string): Promise<LoginReturnDto> {
     return this.authService.validateCode(code);
+  }
+
+  @Post('recuperaSenhaDelivery')
+  recuperaSenhaDelivery(
+    @Body() recoverPasswordAuthDto: RecoverPasswordAuthDto,
+  ) {
+    return this.authService.recoverPasswordDelivery(recoverPasswordAuthDto);
+  }
+
+  @Post('validaCodigoDelivery/:codigo')
+  validaCodigoDelivery(@Param('codigo') code: string): Promise<LoginReturnDto> {
+    return this.authService.validateCodeDelivery(code);
   }
 }

@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from 'src/entities/user.entity';
 import { UserModule } from './user.module';
+import { UserDeliveryModule } from './userDelivery.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { UserModule } from './user.module';
     }),
     TypeOrmModule.forFeature([UserEntity]),
     UserModule,
+    UserDeliveryModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],

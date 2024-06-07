@@ -5,11 +5,13 @@ import {
   ManyToOne,
   OneToMany,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { solicitacaoCompraStatus } from 'src/enums/solicitacaoCompraStatus.enum';
 import { modoPagamento } from 'src/enums/modoPagamento.enum';
 import { UserClientEntity } from './userClient.entity';
+import { DeliveryQueueEntity } from './deliveryQueue.entity';
 
 @Entity({
   name: 'shoppings',
@@ -18,7 +20,7 @@ export class ShoppingEntity {
   @PrimaryGeneratedColumn({
     unsigned: true,
   })
-  id?: number;
+  id: number;
 
   @Column()
   storeAddress: string;
@@ -70,4 +72,11 @@ export class ShoppingEntity {
   )
   @JoinColumn({ name: 'userEntityId' })
   userClientEntity: UserClientEntity;
+
+  @OneToOne(
+    () => DeliveryQueueEntity,
+    (deliveryQueueEntity) => deliveryQueueEntity.shoppingEntity,
+    {},
+  )
+  deliveryQueueEntity: DeliveryQueueEntity;
 }

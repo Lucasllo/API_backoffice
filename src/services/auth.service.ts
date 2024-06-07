@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginReturnDto } from 'src/dtos/login/loginReturn.dto';
 import { MailingService } from './mailingService';
+import { UserDeliveryService } from './userDelivery.service';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +14,7 @@ export class AuthService {
 
   constructor(
     private readonly userservice: UserService,
+    private readonly userDeliveryService: UserDeliveryService,
     private readonly jwtService: JwtService,
     private readonly mailingService: MailingService,
   ) {}
@@ -23,8 +25,14 @@ export class AuthService {
 
   async login(loginAuthDto: LoginAuthDto): Promise<LoginReturnDto> {
     const user = await this.userservice.login(loginAuthDto);
-    const token = this.createToken((await user).id);
+    const token = this.createToken(user.id);
     return { code: user.storeCode, role: user.role, ...token };
+  }
+
+  async loginDelivery(loginAuthDto: LoginAuthDto): Promise<LoginReturnDto> {
+    const userDelivery = await this.userDeliveryService.login(loginAuthDto);
+    const token = this.createTokenDelivery(userDelivery.id);
+    return { role: userDelivery.role, ...token };
   }
 
   async recoverPassword(recoverPasswordAuthDto: RecoverPasswordAuthDto) {
@@ -54,14 +62,59 @@ export class AuthService {
     }
   }
 
+  async recoverPasswordDelivery(
+    recoverPasswordAuthDto: RecoverPasswordAuthDto,
+  ) {
+    try {
+      const user = await this.userDeliveryService.recoverPassword(
+        recoverPasswordAuthDto,
+      );
+      //salvar codigo criado no banco
+      const codigo = Math.floor(1000 + Math.random() * 9000);
+
+      await this.userservice.setValidCode(user.id, codigo);
+
+      //enviar email
+      //this.mailingService
+    } catch (error) {
+      throw new BadRequestException('Usuario invalido');
+    }
+  }
+
+  async validateCodeDelivery(code: string): Promise<LoginReturnDto> {
+    try {
+      const user = await this.userDeliveryService.findByValidCode(+code);
+      const token = this.createTokenRecoverPassword(+code, user.id);
+      return { role: user.role, ...token };
+    } catch (error) {
+      throw new BadRequestException('Usuario não encontrado');
+    }
+  }
+
   private createToken(id: number) {
     return {
       token: this.jwtService.sign(
         {},
         {
-          expiresIn: '1 days',
+          expiresIn: '7 days',
           subject: JSON.stringify({
             user: String(id),
+          }),
+          issuer: this.issuer,
+          audience: this.audience,
+        },
+      ),
+    };
+  }
+
+  private createTokenDelivery(id: number) {
+    return {
+      token: this.jwtService.sign(
+        {},
+        {
+          expiresIn: '7 days',
+          subject: JSON.stringify({
+            userDelivery: String(id),
           }),
           issuer: this.issuer,
           audience: this.audience,

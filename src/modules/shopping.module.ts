@@ -9,5 +9,6 @@ import { ShoppingRepository } from 'src/repositories/shopping.repository';
   imports: [TypeOrmModule.forFeature([ShoppingEntity])],
   controllers: [ShoppingController],
   providers: [ShoppingService, ShoppingRepository],
+  exports: [ShoppingService],
 })
 export class ShoppingModule {}

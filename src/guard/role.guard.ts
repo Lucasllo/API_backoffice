@@ -26,13 +26,16 @@ export class RoleGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
     const recoverPasswordCode = request.codeRecover;
+    const userDeliveryCode = request.userDelivery;
 
     if (!roles) {
       return true;
     } else if (recoverPasswordCode != undefined) {
-      return roles.includes(Role.Recover) ? true : false;
+      return roles.includes(Role.Recover);
+    } else if (userDeliveryCode != undefined) {
+      return roles.includes(Role.MotoBoy);
     } else {
-      return roles.includes(user.role) ? true : false;
+      return roles.includes(user.role);
     }
   }
 }

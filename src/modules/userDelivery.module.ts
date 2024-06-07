@@ -9,5 +9,6 @@ import { UserDeliveryRepository } from 'src/repositories/userDelivery.repository
   imports: [TypeOrmModule.forFeature([UserDeliveryEntity])],
   controllers: [UserDeliveryController],
   providers: [UserDeliveryService, UserDeliveryRepository],
+  exports: [UserDeliveryService],
 })
 export class UserDeliveryModule {}

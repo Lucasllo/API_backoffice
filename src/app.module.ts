@@ -21,17 +21,11 @@ import { CardEntity } from './entities/card.entity';
 import { AddressEntity } from './entities/address.entity';
 import { UserDeliveryModule } from './modules/userDelivery.module';
 import { UserDeliveryEntity } from './entities/userDelivery.entity';
+import { DeliveryQueueEntity } from './entities/deliveryQueue.entity';
+import { DeliveryqueueModule } from './modules/deliveryqueue.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    AuthModule,
-    UserModule,
-    UserClientModule,
-    ProductModule,
-    ShoppingModule,
-    CategoryModule,
-    CardModule,
-    AddressModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
@@ -48,10 +42,20 @@ import { UserDeliveryEntity } from './entities/userDelivery.entity';
         CardEntity,
         AddressEntity,
         UserDeliveryEntity,
+        DeliveryQueueEntity,
       ],
       synchronize: process.env.ENV === 'developmen',
     }),
+    AuthModule,
+    UserModule,
+    UserClientModule,
+    ProductModule,
+    ShoppingModule,
+    CategoryModule,
+    CardModule,
+    AddressModule,
     UserDeliveryModule,
+    DeliveryqueueModule,
   ],
   controllers: [],
   providers: [

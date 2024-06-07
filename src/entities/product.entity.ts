@@ -44,6 +44,9 @@ export class ProductEntity {
   @Column({ name: 'shoppingEntityId' })
   shoppingId: number;
 
+  @Column()
+  storeCode: string;
+
   @ManyToOne(
     () => CategoryEntity,
     (categoryEntity) => categoryEntity.productEntity,
