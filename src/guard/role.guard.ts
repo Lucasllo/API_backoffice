@@ -33,7 +33,7 @@ export class RoleGuard implements CanActivate {
     } else if (recoverPasswordCode != undefined) {
       return roles.includes(Role.Recover);
     } else if (userDeliveryCode != undefined) {
-      return roles.includes(Role.MotoBoy);
+      return roles.includes(Role.Delivery);
     } else {
       return roles.includes(user.role);
     }

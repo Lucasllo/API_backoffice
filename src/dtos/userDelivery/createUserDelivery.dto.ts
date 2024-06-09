@@ -3,6 +3,13 @@ import { IsBoolean, IsString, IsStrongPassword } from 'class-validator';
 
 export class CreateUserDeliveryDto {
   @ApiProperty({
+    example: 'joao',
+    description: 'Nome do usuario',
+  })
+  @IsString()
+  name: string;
+
+  @ApiProperty({
     example: 'joao@mail.com',
     description: 'Email do usuario',
   })

@@ -1,15 +1,18 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { UserDeliveryService } from '../services/userDelivery.service';
 import { CreateUserDeliveryDto } from 'src/dtos/userDelivery/createUserDelivery.dto';
 import { Public } from 'src/decorators/public.decorator';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/role.enum';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Delivery } from 'src/decorators/delivery.decorator';
 import { ChangePasswordAuthDto } from 'src/dtos/password/changePasswordAuth.dto';
 import { UserDeliveryDto } from 'src/dtos/userDelivery/userDelivery.dto';
+import { RoleGuard } from 'src/guard/role.guard';
 
-@Controller('user-delivery')
+@UseGuards(RoleGuard)
+@ApiTags('Delivery')
+@Controller('delivery')
 export class UserDeliveryController {
   constructor(private readonly userDeliveryService: UserDeliveryService) {}
 

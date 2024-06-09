@@ -9,7 +9,7 @@ export class ProductService {
     return `This action returns all product`;
   }
 
-  findOne(id: number) {
+  findByShopping(id: number) {
     return this.productRepository.findByShopping(id);
   }
 

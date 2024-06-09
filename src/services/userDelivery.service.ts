@@ -27,11 +27,12 @@ export class UserDeliveryService {
       createUserDeliveryDto.password,
       await bcrypt.genSalt(),
     );
+    user.name = createUserDeliveryDto.name;
     user.numberVehicle = createUserDeliveryDto.numberVehicle;
     user.cpf = createUserDeliveryDto.cpf;
     user.phoneNumber = createUserDeliveryDto.phoneNumber;
     user.acceptTerms = createUserDeliveryDto.acceptTerms;
-    user.role = Role.MotoBoy;
+    user.role = Role.Delivery;
     user.email = createUserDeliveryDto.email;
     user.createdAt = new Date();
     try {

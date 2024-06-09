@@ -6,6 +6,7 @@ import {
   JoinColumn,
   CreateDateColumn,
   OneToOne,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ShoppingEntity } from './shopping.entity';
 import { UserDeliveryEntity } from './userDelivery.entity';
@@ -27,6 +28,9 @@ export class DeliveryQueueEntity {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @Column({ name: 'userDeliveryId' })
   userDeliveryId: number;

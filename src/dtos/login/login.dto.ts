@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsStrongPassword } from 'class-validator';
+import { IsOptional, IsString, IsStrongPassword } from 'class-validator';
 
 export class LoginAuthDto {
   @ApiProperty({
@@ -28,5 +28,6 @@ export class LoginAuthDto {
     description: 'Codigo da empresa',
   })
   @IsString()
-  storeCode: string;
+  @IsOptional()
+  storeCode?: string;
 }

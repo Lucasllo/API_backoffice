@@ -5,4 +5,6 @@ export enum solicitacaoCompraStatus {
   Concluded = 4,
   SeparateRequest = 5,
   WaitingMotoboy = 6,
+  OrderOnTheWay = 7,
+  OrderAtTheDeliveryPoint = 8,
 }

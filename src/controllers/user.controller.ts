@@ -21,25 +21,27 @@ import { ChangePasswordAuthDto } from 'src/dtos/password/changePasswordAuth.dto'
 // @Roles(Role.Admin, Role.User)
 @UseGuards(RoleGuard)
 @ApiTags('User')
-@Controller('User')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Public()
   @Post('create')
+  @ApiBearerAuth('access-token')
   create(@Body() createPessoaDto: CreateUserDto) {
     return this.userService.create(createPessoaDto);
   }
 
   @Post('findAll')
   @Roles(Role.Admin)
+  @ApiBearerAuth('access-token')
   findOne(@Body() query: UserQueryPaginateDto) {
     return this.userService.findAll(query);
   }
 
-  @Patch('authorizeUser/:id')
   @Roles(Role.Admin)
+  @ApiBearerAuth('access-token')
+  @Patch('authorizeUser/:id')
   authorizeUser(@Param('id') code: string, @User() user: UserDto) {
     return this.userService.authorizeUser(+code, user);
   }
