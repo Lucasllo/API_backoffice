@@ -27,7 +27,6 @@ export class UserController {
 
   @Public()
   @Post('create')
-  @ApiBearerAuth('access-token')
   create(@Body() createPessoaDto: CreateUserDto) {
     return this.userService.create(createPessoaDto);
   }
