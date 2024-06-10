@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'UserBackOffice' })
+@Entity({ name: 'userbackoffice' })
 export class UserEntity {
   @PrimaryGeneratedColumn({
     unsigned: true,
