@@ -47,13 +47,6 @@ export class CreateUserDto {
   confirmPassword: string;
 
   @ApiProperty({
-    example: '1',
-    description: 'Cargo do usuario',
-  })
-  @IsString()
-  role: string;
-
-  @ApiProperty({
     example: '111241',
     description: 'Codigo da farmacia',
   })

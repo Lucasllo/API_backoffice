@@ -5,6 +5,7 @@ import {
   UseGuards,
   Param,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { CreateUserDto } from 'src/dtos/user/createUser.dto';
@@ -55,8 +56,10 @@ export class UserController {
     return this.userService.updatePassword(user.id, changePasswordAuthDto);
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.userService.remove(+id);
-  // }
+  @Roles(Role.Admin)
+  @ApiBearerAuth('access-token')
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.userService.delete(+id);
+  }
 }

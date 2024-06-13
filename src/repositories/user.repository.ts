@@ -27,7 +27,10 @@ export class UserRepository {
       },
     });
 
-    if (newUser == null) {
+    if (newUser != null && !newUser.active) {
+      newUser.active = true;
+      return await this.userRepository.save(newUser);
+    } else if (newUser == null) {
       return await this.userRepository.save(user);
     } else {
       throw new BadRequestException('Email invalido.');
@@ -99,7 +102,7 @@ export class UserRepository {
     const storeCode = query.storeCode;
 
     const [result, total] = await this.userRepository.findAndCount({
-      where: { storeCode },
+      where: { storeCode, active: true },
       order,
       take: take,
       skip: skip,
@@ -126,7 +129,7 @@ export class UserRepository {
       {
         id,
       },
-      { active: true, userAuthorized: Userid },
+      { userAuthorized: Userid, authorized: true },
     );
   }
 
@@ -148,6 +151,7 @@ export class UserRepository {
         email,
         storeCode,
         authorized: true,
+        active: true,
       },
     });
 
@@ -156,5 +160,11 @@ export class UserRepository {
     } else {
       throw new UnauthorizedException('Email e/ou senha incorretos.');
     }
+  }
+
+  public async delete(id: number): Promise<void> {
+    const user = await this.findById(id);
+    user.active = false;
+    this.userRepository.save(user);
   }
 }

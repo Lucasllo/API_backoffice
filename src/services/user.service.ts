@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { MailingService } from './mailingService';
 import { UserQueryPaginateDto } from 'src/dtos/user/userQueryPaginate.dto';
 import { UserDto } from 'src/dtos/user/user.dto';
+import { Role } from 'src/enums/role.enum';
 
 @Injectable()
 export class UserService {
@@ -30,7 +31,7 @@ export class UserService {
       createUserDto.password,
       await bcrypt.genSalt(),
     );
-    user.role = createUserDto.role;
+    user.role = Role.User;
     user.name = createUserDto.name;
     user.email = createUserDto.email;
     user.createdAt = new Date();
@@ -96,5 +97,9 @@ export class UserService {
 
   async recoverPassword(recoverPasswordAuthDto: RecoverPasswordAuthDto) {
     return await this.userRepository.findByEmail(recoverPasswordAuthDto.email);
+  }
+
+  delete(id: number) {
+    this.userRepository.delete(id);
   }
 }
