@@ -44,7 +44,7 @@ export class UserService {
 
   async findAll(query: UserQueryPaginateDto) {
     try {
-      return this.userRepository.findAll(query);
+      return await this.userRepository.findAll(query);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -52,7 +52,7 @@ export class UserService {
 
   async authorizeUser(code: number, user: UserDto) {
     try {
-      return this.userRepository.authorizeUser(code, user.id);
+      return await this.userRepository.authorizeUser(code, user.id);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
