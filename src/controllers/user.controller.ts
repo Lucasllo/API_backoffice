@@ -46,6 +46,13 @@ export class UserController {
     return this.userService.authorizeUser(+code, user);
   }
 
+  @Roles(Role.Admin)
+  @ApiBearerAuth('access-token')
+  @Patch('changeRoleUser/:id/:role')
+  changeRoleUser(@Param('id') code: string, @Param('role') role: string) {
+    return this.userService.changeRoleUser(+code, role);
+  }
+
   @Roles(Role.Recover)
   @ApiBearerAuth('access-token')
   @Post('mudaSenha')

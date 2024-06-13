@@ -58,6 +58,23 @@ export class UserService {
     }
   }
 
+  async changeRoleUser(code: number, role: string) {
+    try {
+      const roles = Object.values(Role).filter((r) => r == role);
+
+      if (
+        roles.length == 1 &&
+        (roles[0] == Role.Admin || roles[0] == Role.User)
+      ) {
+        return this.userRepository.changeRoleUser(code, roles[0]);
+      } else {
+        throw new BadRequestException('Papel invalido!');
+      }
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
   async updatePassword(
     id: number,
     changePasswordAuthDto: ChangePasswordAuthDto,

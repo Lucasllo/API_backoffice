@@ -11,6 +11,7 @@ import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from 'src/dtos/user/updateUser.dto';
 import { UserPaginateDto } from 'src/dtos/user/userPaginate.dto';
 import { UserQueryPaginateDto } from 'src/dtos/user/userQueryPaginate.dto';
+import { Role } from 'src/enums/role.enum';
 
 @Injectable()
 export class UserRepository {
@@ -125,11 +126,32 @@ export class UserRepository {
       throw new BadRequestException('Codigo invalido.');
     }
 
+    const authorized = userUpdated.authorized;
+
     await this.userRepository.update(
       {
         id,
       },
-      { userAuthorized: Userid, authorized: true },
+      { userAuthorized: Userid, authorized: !authorized },
+    );
+  }
+
+  public async changeRoleUser(id: number, role: Role.Admin | Role.User) {
+    const userUpdated = await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!userUpdated) {
+      throw new BadRequestException('Codigo invalido.');
+    }
+
+    await this.userRepository.update(
+      {
+        id,
+      },
+      { role: role },
     );
   }
 
