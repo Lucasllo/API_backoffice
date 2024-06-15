@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Delete,
+  Get,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { CreateUserDto } from 'src/dtos/user/createUser.dto';
@@ -37,6 +38,13 @@ export class UserController {
   @ApiBearerAuth('access-token')
   findOne(@Body() query: UserQueryPaginateDto) {
     return this.userService.findAll(query);
+  }
+
+  @Roles(Role.Admin, Role.User)
+  @ApiBearerAuth('access-token')
+  @Get('me')
+  findById(@User() user: UserDto) {
+    return this.userService.findbyId(user.id);
   }
 
   @Roles(Role.Admin)

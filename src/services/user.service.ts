@@ -35,6 +35,9 @@ export class UserService {
     user.name = createUserDto.name;
     user.email = createUserDto.email;
     user.createdAt = new Date();
+
+    //envio de email para validar Email do usuario
+
     try {
       return this.userMapper.toDTO(await this.userRepository.create(user));
     } catch (error) {
