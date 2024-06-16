@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class LoginReturnDto {
   @ApiProperty({
@@ -22,4 +22,18 @@ export class LoginReturnDto {
   })
   @IsString()
   token: string;
+
+  @ApiProperty({
+    example: '1',
+    description: 'Id do usuario',
+  })
+  @IsNumber()
+  id?: number;
+
+  @ApiProperty({
+    example: 'João',
+    description: 'Nome do usuario',
+  })
+  @IsString()
+  name?: string;
 }

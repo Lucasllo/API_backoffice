@@ -26,13 +26,24 @@ export class AuthService {
   async login(loginAuthDto: LoginAuthDto): Promise<LoginReturnDto> {
     const user = await this.userservice.login(loginAuthDto);
     const token = this.createToken(user.id);
-    return { code: user.storeCode, role: user.role, ...token };
+    return {
+      id: user.id,
+      name: user.name,
+      code: user.storeCode,
+      role: user.role,
+      ...token,
+    };
   }
 
   async loginDelivery(loginAuthDto: LoginAuthDto): Promise<LoginReturnDto> {
     const userDelivery = await this.userDeliveryService.login(loginAuthDto);
     const token = this.createTokenDelivery(userDelivery.id);
-    return { role: userDelivery.role, ...token };
+    return {
+      id: userDelivery.id,
+      name: userDelivery.name,
+      role: userDelivery.role,
+      ...token,
+    };
   }
 
   async recoverPassword(recoverPasswordAuthDto: RecoverPasswordAuthDto) {
