@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsArray, IsNumber, ValidateNested } from 'class-validator';
-import { UserEntity } from 'src/entities/user.entity';
+import { UserPermissionDto } from './userPermission.dto';
 
 export class UserPaginateDto {
   @ApiProperty({
@@ -10,8 +10,8 @@ export class UserPaginateDto {
   })
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => UserEntity)
-  data: UserEntity[];
+  @Type(() => UserPermissionDto)
+  data: UserPermissionDto[];
 
   @ApiProperty({
     example: '10',

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsArray, IsNumber, ValidateNested } from 'class-validator';
-import { ShoppingEntity } from 'src/entities/shopping.entity';
+import { ShoppingDto } from './shopping.dto';
 
 export class ShoppingPaginateDto {
   @ApiProperty({
@@ -10,8 +10,8 @@ export class ShoppingPaginateDto {
   })
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => ShoppingEntity)
-  data: ShoppingEntity[];
+  @Type(() => ShoppingDto)
+  data: ShoppingDto[];
 
   @ApiProperty({
     example: '10',

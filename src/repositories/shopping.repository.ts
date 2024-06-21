@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ShoppingPaginateDto } from 'src/dtos/shopping/shoppingPaginate.dto';
 import { ShoppingQueryPaginateDto } from 'src/dtos/shopping/shoppingQueryPaginate.dto';
 import { ShoppingEntity } from 'src/entities/shopping.entity';
 import { solicitacaoCompraStatus } from 'src/enums/solicitacaoCompraStatus.enum';
@@ -13,9 +12,7 @@ export class ShoppingRepository {
     private readonly shoppingRepository: Repository<ShoppingEntity>,
   ) {}
 
-  public async findAll(
-    query: ShoppingQueryPaginateDto,
-  ): Promise<ShoppingPaginateDto> {
+  public async findAll(query: ShoppingQueryPaginateDto) {
     const take = query.take || 10;
     const skip = query.skip || 0;
     const order = query.orderBy || { id: 'DESC' };

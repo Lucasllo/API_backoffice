@@ -12,7 +12,7 @@ export class ProductRepository {
 
   public async findByShopping(id: number) {
     return this.productRepository.find({
-      relations: ['categoryEntity'],
+      relations: ['shoppingEntity'],
       where: {
         shoppingId: id,
       },

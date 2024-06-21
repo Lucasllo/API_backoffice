@@ -11,6 +11,8 @@ import { MailingService } from './mailingService';
 import { UserQueryPaginateDto } from 'src/dtos/user/userQueryPaginate.dto';
 import { UserDto } from 'src/dtos/user/user.dto';
 import { Role } from 'src/enums/role.enum';
+import { UserPermissionMapper } from 'src/mappers/userPermission.mapper';
+import { UserPaginateDto } from 'src/dtos/user/userPaginate.dto';
 
 @Injectable()
 export class UserService {
@@ -18,6 +20,7 @@ export class UserService {
     private readonly userRepository: UserRepository,
     private readonly userMapper: UserMapper,
     private readonly mailingService: MailingService,
+    private readonly userPermissionMapper: UserPermissionMapper,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -47,7 +50,14 @@ export class UserService {
 
   async findAll(query: UserQueryPaginateDto) {
     try {
-      return await this.userRepository.findAll(query);
+      const dados = await this.userRepository.findAll(query);
+      this.userPermissionMapper.toListDTO(dados.data);
+
+      const retorno: UserPaginateDto = new UserPaginateDto();
+      retorno.count = dados.count;
+      retorno.data = this.userPermissionMapper.toListDTO(dados.data);
+
+      return retorno;
     } catch (error) {
       throw new BadRequestException(error.message);
     }

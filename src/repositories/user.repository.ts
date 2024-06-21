@@ -9,7 +9,6 @@ import { UserEntity } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from 'src/dtos/user/updateUser.dto';
-import { UserPaginateDto } from 'src/dtos/user/userPaginate.dto';
 import { UserQueryPaginateDto } from 'src/dtos/user/userQueryPaginate.dto';
 import { Role } from 'src/enums/role.enum';
 
@@ -96,7 +95,7 @@ export class UserRepository {
     return user;
   }
 
-  public async findAll(query: UserQueryPaginateDto): Promise<UserPaginateDto> {
+  public async findAll(query: UserQueryPaginateDto) {
     const take = query.take || 10;
     const skip = query.skip || 0;
     const order = query.orderBy || { id: 'DESC' };
