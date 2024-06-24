@@ -12,6 +12,7 @@ export class UserPermissionMapper {
       user.createdAt = entity.createdAt;
       user.role = entity.role;
       user.id = entity.id;
+      user.authorized = entity.authorized;
     }
 
     return user;
@@ -26,6 +27,7 @@ export class UserPermissionMapper {
       user.name = dto.name;
       user.createdAt = dto.createdAt;
       user.role = dto.role;
+      user.authorized = dto.authorized;
       if (dto.id) {
         user.id = dto.id;
       }

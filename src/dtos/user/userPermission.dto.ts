@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsEmail, IsNumber, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDate,
+  IsEmail,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 
 export class UserPermissionDto {
   @IsNumber()
@@ -28,4 +34,7 @@ export class UserPermissionDto {
 
   @IsString()
   role: string;
+
+  @IsBoolean()
+  authorized: boolean;
 }
