@@ -14,7 +14,7 @@ export class ProductDto {
     description: 'Nome do produto',
   })
   @IsString()
-  description: string;
+  name: string;
 
   @ApiProperty({
     example: '12',

@@ -7,7 +7,7 @@ export class ProductMapper {
 
     if (entity != null) {
       dto = new ProductDto();
-      dto.description = entity.description;
+      dto.name = entity.name;
       dto.price = entity.price;
       dto.deliveryTime = entity.shoppingEntity.deliveryTime;
       dto.deliveryAddress = entity.shoppingEntity.deliveryAddress;
@@ -24,7 +24,7 @@ export class ProductMapper {
 
     if (dto != null) {
       entity = new ProductEntity();
-      entity.description = dto.description;
+      entity.name = dto.name;
       entity.price = dto.price;
       entity.shoppingEntity.deliveryTime = dto.deliveryTime;
       entity.shoppingEntity.deliveryAddress = dto.deliveryAddress;
