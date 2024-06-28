@@ -12,6 +12,9 @@ export class UserMapper {
       user.password = entity.password;
       user.phone = entity.phoneNumber;
       user.role = entity.role;
+      if (entity.id) {
+        user.id = entity.id;
+      }
     }
 
     return user;
