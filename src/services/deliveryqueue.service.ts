@@ -19,12 +19,18 @@ export class DeliveryqueueService {
     const delivery = await this.userDeliveryService.findOne(idDelivery);
 
     if (shopping != null && delivery != null) {
-      const deliveryQueue = new DeliveryQueueEntity();
-      deliveryQueue.createdAt = new Date();
-      deliveryQueue.shoppingId = idShopping;
-      deliveryQueue.userDeliveryId = idDelivery;
-      deliveryQueue.status = DeliveryStatus.Waiting;
-      this.deliveryQueueRepository.save(deliveryQueue);
+      const shoppinggDelivery =
+        await this.deliveryQueueRepository.findByShopping(idShopping);
+      if (shoppinggDelivery == null) {
+        const deliveryQueue = new DeliveryQueueEntity();
+        deliveryQueue.createdAt = new Date();
+        deliveryQueue.shoppingId = idShopping;
+        deliveryQueue.userDeliveryId = idDelivery;
+        deliveryQueue.status = DeliveryStatus.Waiting;
+        this.deliveryQueueRepository.save(deliveryQueue);
+      } else {
+        throw new BadRequestException('Shopping já usado');
+      }
     } else {
       throw new BadRequestException('Dados invalidos');
     }

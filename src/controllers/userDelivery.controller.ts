@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get } from '@nestjs/common';
 import { UserDeliveryService } from '../services/userDelivery.service';
 import { CreateUserDeliveryDto } from 'src/dtos/userDelivery/createUserDelivery.dto';
 import { Public } from 'src/decorators/public.decorator';
@@ -34,6 +34,14 @@ export class UserDeliveryController {
       changePasswordAuthDto,
     );
   }
+
+  @Roles(Role.Delivery)
+  @ApiBearerAuth('access-token')
+  @Get('me')
+  findById(@Delivery() userDelivery: UserDeliveryDto) {
+    return this.userDeliveryService.findOne(userDelivery.id);
+  }
+
   // @Get()
   // findAll() {
   //   return this.userDeliveryService.findAll();

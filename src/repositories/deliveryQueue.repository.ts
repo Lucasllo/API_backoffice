@@ -22,4 +22,13 @@ export class DeliveryQueueRepository {
       },
     });
   }
+
+  public async findByShopping(id: number) {
+    return await this.deliveryQueueRepository.find({
+      relations: ['shoppingEntity'],
+      where: {
+        shoppingId: id,
+      },
+    });
+  }
 }
