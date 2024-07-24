@@ -21,7 +21,7 @@ export class DeliveryqueueService {
     if (shopping != null && delivery != null) {
       const shoppinggDelivery =
         await this.deliveryQueueRepository.findByShopping(idShopping);
-      if (shoppinggDelivery == null) {
+      if (shoppinggDelivery.length <= 0) {
         const deliveryQueue = new DeliveryQueueEntity();
         deliveryQueue.createdAt = new Date();
         deliveryQueue.shoppingId = idShopping;
