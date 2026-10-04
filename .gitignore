@@ -34,4 +34,9 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# IDE - Cursor
+# Instalação local do GSD e do editor. As regras do projeto continuam versionadas.
+.cursor/*
+!.cursor/rules/
+
 .env

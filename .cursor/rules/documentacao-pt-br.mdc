@@ -1,0 +1,33 @@
+---
+description: Documentação do projeto em português do Brasil
+alwaysApply: true
+---
+
+# Documentação em português (Brasil)
+
+Toda documentação escrita ou atualizada neste repositório sai em português do Brasil.
+
+## O que entra
+
+- README, guias, ADRs, specs, planos e arquivos em `docs/` ou `.planning/`
+- Comentários de documentação voltados a pessoas (JSDoc, docblocks, cabeçalhos de módulo)
+- Textos de interface documentados em markdown (mensagens de erro descritas em docs, exemplos de resposta)
+
+## O que permanece em inglês
+
+- Identificadores de código, nomes de arquivos, rotas, comandos e chaves de API
+- Termos técnicos já estabelecidos no código (`middleware`, `payload`, `endpoint`) quando fizerem parte do vocabulário do código
+- Blocos de código e saídas literais de ferramenta
+
+## Como escrever
+
+- Use português do Brasil: "você", "arquivo", "usuário", "seção".
+- Frases diretas e completas. Evite tradução literal do inglês.
+- Ao editar um trecho de um documento existente em inglês, reescreva o trecho alterado em português. Não traduza o arquivo inteiro sem pedido explícito.
+- Exemplo de cabeçalho:
+
+```markdown
+## Como autenticar
+
+Envie o token no header `Authorization`. O endpoint rejeita a requisição quando o token está ausente ou expirado.
+```
