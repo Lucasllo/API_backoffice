@@ -55,27 +55,27 @@ Reconhecido, fora deste roadmap.
 
 ## Traceability
 
-As fases entram na criação do roadmap. Nada está mapeado ainda.
+Cada requisito v1 mapeia para uma fase.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ENV-01 | — | Pending |
-| ENV-02 | — | Pending |
-| SEED-01 | — | Pending |
-| SEED-02 | — | Pending |
-| DLVY-01 | — | Pending |
-| DLVY-02 | — | Pending |
-| DLVY-03 | — | Pending |
-| DLVY-04 | — | Pending |
-| TEST-01 | — | Pending |
+| ENV-01 | Phase 3 | Pending |
+| ENV-02 | Phase 1 | Pending |
+| SEED-01 | Phase 1 | Pending |
+| SEED-02 | Phase 1 | Pending |
+| DLVY-01 | Phase 2 | Pending |
+| DLVY-02 | Phase 2 | Pending |
+| DLVY-03 | Phase 2 | Pending |
+| DLVY-04 | Phase 2 | Pending |
+| TEST-01 | Phase 3 | Pending |
 
 **Coverage:**
 
 - v1 requirements: 9 total
-- Mapped to phases: 0
-- Unmapped: 9
+- Mapped to phases: 9
+- Unmapped: 0
 
 ---
 
 *Requirements defined: 2026-10-04*
-*Last updated: 2026-10-04 after initialization*
+*Last updated: 2026-10-04 after roadmap*
