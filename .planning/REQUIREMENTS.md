@@ -1,0 +1,81 @@
+# Requirements: API iFarma Backoffice
+
+**Defined:** 2026-10-04
+**Core Value:** Uma pessoa clona o repositório, segue o README e confirma a entrega de um pedido, e um comando de teste prova esse caminho.
+
+## v1 Requirements
+
+Requisitos do portfólio. Cada um mapeia para uma fase do roadmap.
+
+### Ambiente
+
+- [ ] **ENV-01**: Quem clona o repositório segue um README em português e sobe a API até confirmar a entrega do pedido semeado
+- [ ] **ENV-02**: Quem clona configura MySQL e a API a partir de um exemplo de ambiente, sem segredo real e sem pacote novo no `package.json`
+
+### Semente
+
+- [ ] **SEED-01**: A demo traz, em dados fictícios versionados, uma loja, um operador, um entregador e um pedido com `verificationCode` conhecido
+- [ ] **SEED-02**: A senha do entregador semeado autentica em `POST /auth/loginDelivery`
+
+### Entrega
+
+- [ ] **DLVY-01**: O entregador autenticado envia `POST /deliveryqueue/:idShopping` e a fila desse pedido fica gravada como `DeliveryStatus.Waiting`
+- [ ] **DLVY-02**: Um segundo `POST /deliveryqueue/:idShopping` no mesmo pedido responde `Shopping já usado` e não abre outra fila
+- [ ] **DLVY-03**: `POST /deliveryqueue/validateDelivery/:idShopping/:codeShopping` com o código da semente atualiza essa mesma linha para `DeliveryStatus.Finished` e o pedido para `solicitacaoCompraStatus.Concluded`
+- [ ] **DLVY-04**: Um código diferente de `verificationCode` não altera a fila nem o pedido
+
+### Prova
+
+- [ ] **TEST-01**: Um comando Jest prova só esse caminho: login do entregador, fila persistida, código certo conclui a mesma linha e o pedido, código errado não conclui
+
+## v2 Requirements
+
+Reconhecido, fora deste roadmap.
+
+### Entrega
+
+- **DLVY-05**: O README cita `GET /deliveryqueue/findByUserDelivery` só se a rota já responder sem trabalho extra
+- **DLVY-06**: A confirmação só é aceita do entregador que reivindicou o pedido
+- **DLVY-07**: Uma segunda confirmação do mesmo pedido não insere outra linha em `deliveryqueue`
+- **DLVY-08**: `POST /shopping` não quebra quando `userClientEntity` vem nula, se o README passar a listar pedidos
+
+## Out of Scope
+
+| Feature | Reason |
+|---------|--------|
+| Criar pedido pela API | `POST /shopping` lista. A demo semeia o pedido. |
+| Foto, assinatura, GPS, SMS ou documento de quem recebeu | A prova deste backoffice é o `verificationCode`. |
+| Lock para dois entregadores ao mesmo tempo | Um leitor só. A recusa sequencial `Shopping já usado` basta. |
+| Status intermediários até `Concluded` | `validateDelivery` conclui. O teste não afirma os oito status. |
+| Fila Bull, Redis ou microserviço | A fila é a tabela `deliveryqueue`. |
+| Recuperação de senha, e-mail, cartão, endereço e categoria | Não participam do caminho semeado. Stubs permanecem. |
+| Auditoria de segurança que não trava a demo | PAN/CVV, isolamento de loja, rate limit, CORS e revogação ficam de fora. |
+| Cobertura do restante da API e o e2e `Hello World` | O comando novo prova só a entrega. |
+| Trocar o contrato HTTP da fila | O portfólio mostra as rotas que o Swagger já publica. |
+
+## Traceability
+
+As fases entram na criação do roadmap. Nada está mapeado ainda.
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| ENV-01 | — | Pending |
+| ENV-02 | — | Pending |
+| SEED-01 | — | Pending |
+| SEED-02 | — | Pending |
+| DLVY-01 | — | Pending |
+| DLVY-02 | — | Pending |
+| DLVY-03 | — | Pending |
+| DLVY-04 | — | Pending |
+| TEST-01 | — | Pending |
+
+**Coverage:**
+
+- v1 requirements: 9 total
+- Mapped to phases: 0
+- Unmapped: 9
+
+---
+
+*Requirements defined: 2026-10-04*
+*Last updated: 2026-10-04 after initialization*
