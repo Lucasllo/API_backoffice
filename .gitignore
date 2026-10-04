@@ -39,4 +39,7 @@ lerna-debug.log*
 .cursor/*
 !.cursor/rules/
 
+# GSD
+.planning/research/.cache/
+
 .env
