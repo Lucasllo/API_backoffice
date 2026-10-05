@@ -1,18 +1,18 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 1
+current_phase: 01
 current_phase_name: Demo que autentica
-status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-10-04T20:54:05.350Z"
+status: verifying
+stopped_at: Completed 01-01-PLAN.md
+last_updated: "2026-10-05T00:19:19.123Z"
 last_activity: 2026-10-04
-last_activity_desc: Roadmap criado com 3 fases
-state_head: e74f690c8e06af04eb0e15275748c58b66494ac0
+last_activity_desc: Phase 01 execution started
+state_head: 45a21cb06f2086bf69c0b4cf818951331c69db4a
 progress:
   total_phases: 3
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_plans: 1
+  completed_plans: 1
   percent: 0
 ---
 
@@ -23,14 +23,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-10-04)
 
 **Core value:** Uma pessoa clona o repositório, segue o README e confirma a entrega de um pedido, e um comando de teste prova esse caminho.
-**Current focus:** Phase 1 — Demo que autentica
+**Current focus:** Phase 01 — Demo que autentica
 
 ## Current Position
 
-Phase: 1 of 3 (Demo que autentica)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-10-04 — Roadmap criado com 3 fases
+Phase: 01 (Demo que autentica) — EXECUTING
+Plan: 1 of 1
+Status: Phase complete — ready for verification
+Last activity: 2026-10-04 — Phase 01 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -54,6 +54,11 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: —
 
 *Updated after each plan completion*
+**Per-Plan Metrics:**
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 01 P01 | 15min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -64,6 +69,8 @@ Decisões registradas em PROJECT.md. As que afetam o roadmap:
 - [Roadmap]: Cinco fatias da pesquisa viraram 3 fases (coarse, vertical). Ordem preservada: ambiente e semente, fila, README e prova.
 - [Roadmap]: Schema pelo SQL versionado; o literal `developmen` de `synchronize` permanece. Nenhum pacote novo no `package.json`.
 - [Roadmap]: `ENV-01` fica na fase 3, depois de id, senha, `verificationCode` e `npm run test:delivery` existirem.
+- [Phase 01]: Hash bcrypt de Entrega1! gravado em seed/demo.sql pelo bcrypt 5.1.1 do projeto, custo 10.
+- [Phase 01]: npm run seed reaplica os ids 1 e deixa o pedido 1 sem linha em deliveryqueue.
 
 ### Pending Todos
 
@@ -82,6 +89,6 @@ Nenhum ainda.
 
 ## Session Continuity
 
-Last session: 2026-10-04T20:54:05.327Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-demo-que-autentica/01-CONTEXT.md
+Last session: 2026-10-05T00:19:19.094Z
+Stopped at: Completed 01-01-PLAN.md
+Resume file: None

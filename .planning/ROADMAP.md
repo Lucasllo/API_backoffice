@@ -19,6 +19,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: Demo que autentica
+
 **Goal:** Quem clona configura MySQL e a API a partir do exemplo e autentica o entregador no pedido fictício já semeado.
 **Mode:** mvp
 **Depends on**: Nada (primeira fase)
@@ -28,9 +29,14 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Os dados fictícios versionados incluem uma loja, um operador, um entregador e um pedido com `verificationCode` conhecido.
   3. Rodar a semente de novo deixa esse mesmo pedido sem fila.
   4. A senha do entregador semeado autentica em `POST /auth/loginDelivery`.
-**Plans**: TBD
+
+**Plans:** 1/1 plans executed
+
+Plans:
+- [x] 01-01-PLAN.md — Exemplo de ambiente, semente idempotente e login do entregador
 
 ### Phase 2: Entrega confirmada
+
 **Goal:** O entregador autenticado enfileira o pedido semeado e a confirmação pelo código conclui essa mesma entrega.
 **Mode:** mvp
 **Depends on**: Phase 1
@@ -40,9 +46,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Um segundo `POST /deliveryqueue/:idShopping` no mesmo pedido responde `Shopping já usado` e não abre outra fila.
   3. `POST /deliveryqueue/validateDelivery/:idShopping/:codeShopping` com o código da semente atualiza essa mesma linha para `DeliveryStatus.Finished` e o pedido para `solicitacaoCompraStatus.Concluded`.
   4. Um código diferente de `verificationCode` não altera a fila nem o pedido.
+
 **Plans**: TBD
 
 ### Phase 3: Percurso e prova
+
 **Goal:** Quem segue o README em português confirma a entrega do pedido semeado, e um comando Jest prova só esse caminho.
 **Mode:** mvp
 **Depends on**: Phase 2
@@ -51,6 +59,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. Quem clona o repositório segue o README em português e confirma a entrega do pedido semeado.
   2. `npm run test:delivery` prova o login do entregador, a fila persistida, o código certo concluindo a mesma linha e o pedido, e o código errado sem concluir.
   3. Esse comando cita só o spec desse caminho.
+
 **Plans**: TBD
 
 ## Progress
@@ -60,6 +69,6 @@ Fases na ordem numérica: 1, 2, 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Demo que autentica | 0/TBD | Not started | - |
+| 1. Demo que autentica | 1/1 | In Progress|  |
 | 2. Entrega confirmada | 0/TBD | Not started | - |
 | 3. Percurso e prova | 0/TBD | Not started | - |

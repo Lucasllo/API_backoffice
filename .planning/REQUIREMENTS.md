@@ -10,12 +10,12 @@ Requisitos do portfólio. Cada um mapeia para uma fase do roadmap.
 ### Ambiente
 
 - [ ] **ENV-01**: Quem clona o repositório segue um README em português e sobe a API até confirmar a entrega do pedido semeado
-- [ ] **ENV-02**: Quem clona configura MySQL e a API a partir de um exemplo de ambiente, sem segredo real e sem pacote novo no `package.json`
+- [x] **ENV-02**: Quem clona configura MySQL e a API a partir de um exemplo de ambiente, sem segredo real e sem pacote novo no `package.json`
 
 ### Semente
 
-- [ ] **SEED-01**: A demo traz, em dados fictícios versionados, uma loja, um operador, um entregador e um pedido com `verificationCode` conhecido
-- [ ] **SEED-02**: A senha do entregador semeado autentica em `POST /auth/loginDelivery`
+- [x] **SEED-01**: A demo traz, em dados fictícios versionados, uma loja, um operador, um entregador e um pedido com `verificationCode` conhecido
+- [x] **SEED-02**: A senha do entregador semeado autentica em `POST /auth/loginDelivery`
 
 ### Entrega
 
@@ -60,9 +60,9 @@ Cada requisito v1 mapeia para uma fase.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | ENV-01 | Phase 3 | Pending |
-| ENV-02 | Phase 1 | Pending |
-| SEED-01 | Phase 1 | Pending |
-| SEED-02 | Phase 1 | Pending |
+| ENV-02 | Phase 1 | Complete |
+| SEED-01 | Phase 1 | Complete |
+| SEED-02 | Phase 1 | Complete |
 | DLVY-01 | Phase 2 | Pending |
 | DLVY-02 | Phase 2 | Pending |
 | DLVY-03 | Phase 2 | Pending |
