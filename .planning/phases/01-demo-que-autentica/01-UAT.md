@@ -1,49 +1,47 @@
 ---
-status: complete
+status: testing
 phase: 01-demo-que-autentica
-source: [01-01-SUMMARY.md]
-started: 2026-10-05T22:45:00.000Z
-updated: 2026-10-05T23:17:00.000Z
+source: [01-VERIFICATION.md]
+started: 2026-10-06T02:12:17.000Z
+updated: 2026-10-06T02:12:17.000Z
 ---
 
 ## Current Test
 
-[testing complete]
+number: 1
+name: Login da demo no ar
+expected: |
+  Copiar .env.example para .env, subir o Compose, rodar npm run seed e autenticar o entregador no POST /auth/loginDelivery com entregador.demo@example.com e a senha do comentário da semente. O MySQL escuta só em 127.0.0.1:3306, a API sobe na porta 3000 e o login devolve token, id 1, name Entregador Demo e role 4. O JWT confere com demo-jwt-secret-ifarma, issuer login, audience user e sub userDelivery 1.
+awaiting: user response
 
 ## Tests
 
-### 1. Teste de partida a frio
-expected: Encerre qualquer servidor ou serviço em execução. Limpe estado efêmero (bancos temporários, caches, arquivos de lock). Suba a aplicação do zero. O servidor inicia sem erro, a semente conclui, e uma consulta primária (health check, página inicial ou chamada básica da API) devolve dados vivos.
-result: pass
+### 1. Login da demo no ar
+expected: Copiar .env.example para .env, subir o Compose, rodar npm run seed e autenticar o entregador no POST /auth/loginDelivery com entregador.demo@example.com e a senha do comentário da semente. O MySQL escuta só em 127.0.0.1:3306, a API sobe na porta 3000 e o login devolve token, id 1, name Entregador Demo e role 4. O JWT confere com demo-jwt-secret-ifarma, issuer login, audience user e sub userDelivery 1.
+result: [pending]
 
-### 2. Confirmação dos critérios cobertos automaticamente
-expected: Os três critérios abaixo já passaram na verificação registrada no plano. Confirme se isso corresponde ao que você observa. D1 (ENV-02): MySQL 8.4.11 a partir do ambiente de exemplo, preso a 127.0.0.1, com dotenv carregado antes do AppModule. Coberto por docker compose up mysql:8.4.11 healthy on 127.0.0.1:3306 e o primeiro import de src/main.ts sendo dotenv/config. D2 (SEED-01): a semente versionada insere a loja 2312, o operador, o entregador, o cliente e o pedido 1 com verificationCode 4821, e uma segunda execução deixa esse pedido sem linha em deliveryqueue. Coberto por node scripts/apply-demo-sql.js duas vezes (seed-ok) e npm run seed depois de uma fila artificial (reseed-ok). D3 (SEED-02): POST /auth/loginDelivery do entregador semeado devolve token, id 1, nome Entregador Demo e role 4, e o JWT confere com o segredo de demonstração. Coberto por nest start e POST /auth/loginDelivery com login-ok antes e depois de npm run seed.
-result: pass
+### 2. Semente de novo zera a fila
+expected: Inserir uma linha em deliveryqueue para o pedido 1 e rodar npm run seed de novo. Os ids 1 permanecem, o verificationCode continua 4821, o status continua 6 e a fila desse pedido fica vazia.
+result: [pending]
 
-### 3. MySQL 8.4.11 from the example env, bound to 127.0.0.1, with dotenv loaded before AppModule.
-expected: MySQL 8.4.11 from the example env, bound to 127.0.0.1, with dotenv loaded before AppModule.
-result: pass
-source: automated
-coverage_id: D1
+### 3. Pessoa fictícia na demo
+expected: Nenhum CPF, telefone ou nome real. E-mails em example.com e documentos 00000000000.
+result: [pending]
 
-### 4. Versioned seed inserts store 2312, operator, delivery user, client and order 1 with verificationCode 4821, and a second run leaves that order with no deliveryqueue row.
-expected: Versioned seed inserts store 2312, operator, delivery user, client and order 1 with verificationCode 4821, and a second run leaves that order with no deliveryqueue row.
-result: pass
-source: automated
-coverage_id: D2
+### 4. Exemplo fora de produção
+expected: Host 127.0.0.1, JWT de demonstração e MAIL_* locais. O exemplo não se apresenta como produção.
+result: [pending]
 
-### 5. POST /auth/loginDelivery for the seeded delivery user returns token, id 1, name Entregador Demo and role 4, and the JWT verifies with the demo secret.
-expected: POST /auth/loginDelivery for the seeded delivery user returns token, id 1, name Entregador Demo and role 4, and the JWT verifies with the demo secret.
-result: pass
-source: automated
-coverage_id: D3
+### 5. Senha só como hash
+expected: O INSERT guarda só o hash bcrypt. A senha em claro fica no comentário.
+result: [pending]
 
 ## Summary
 
 total: 5
-passed: 5
+passed: 0
 issues: 0
-pending: 0
+pending: 5
 skipped: 0
 blocked: 0
 
