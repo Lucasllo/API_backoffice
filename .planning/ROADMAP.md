@@ -7,13 +7,14 @@ Quem clona o repositório segue o README em português, sobe a API com MySQL e d
 ## Phases
 
 **Phase Numbering:**
+
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Demo que autentica** - Exemplo de ambiente, schema e semente com entregador que autentica no pedido fictício (completed 2026-10-05)
-- [ ] **Phase 2: Entrega confirmada** - Fila persistida, recusa do segundo enfileiramento e confirmação pelo código na mesma linha
+- [x] **Phase 2: Entrega confirmada** - Fila persistida, recusa do segundo enfileiramento e confirmação pelo código na mesma linha (completed 2026-10-11)
 - [ ] **Phase 3: Percurso e prova** - README em português até a confirmação, e um comando Jest só desse caminho
 
 ## Phase Details
@@ -25,6 +26,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Depends on**: Nada (primeira fase)
 **Requirements**: ENV-02, SEED-01, SEED-02
 **Success Criteria** (o que precisa ser verdadeiro):
+
   1. Quem copia o exemplo de ambiente sobe o MySQL e a API, sem segredo real no repositório e sem pacote novo no `package.json`.
   2. Os dados fictícios versionados incluem uma loja, um operador, um entregador e um pedido com `verificationCode` conhecido.
   3. Rodar a semente de novo deixa esse mesmo pedido sem fila.
@@ -33,6 +35,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 1/1 plans complete
 
 Plans:
+
 - [x] 01-01-PLAN.md — Exemplo de ambiente, semente idempotente e login do entregador
 
 ### Phase 2: Entrega confirmada
@@ -42,14 +45,16 @@ Plans:
 **Depends on**: Phase 1
 **Requirements**: DLVY-01, DLVY-02, DLVY-03, DLVY-04
 **Success Criteria** (o que precisa ser verdadeiro):
+
   1. O entregador autenticado envia `POST /deliveryqueue/:idShopping` e a fila desse pedido fica gravada como `DeliveryStatus.Waiting`.
   2. Um segundo `POST /deliveryqueue/:idShopping` no mesmo pedido responde `Shopping já usado` e não abre outra fila.
   3. `POST /deliveryqueue/validateDelivery/:idShopping/:codeShopping` com o código da semente atualiza essa mesma linha para `DeliveryStatus.Finished` e o pedido para `solicitacaoCompraStatus.Concluded`.
   4. Um código diferente de `verificationCode` não altera a fila nem o pedido.
 
-**Plans:** 1/1 plans executed
+**Plans:** 1/1 plans complete
 
 Plans:
+
 - [x] 02-01-PLAN.md — Enfileirar o pedido 1, recusar o segundo POST e concluir a mesma linha pelo código
 
 ### Phase 3: Percurso e prova
@@ -59,11 +64,17 @@ Plans:
 **Depends on**: Phase 2
 **Requirements**: ENV-01, TEST-01
 **Success Criteria** (o que precisa ser verdadeiro):
+
   1. Quem clona o repositório segue o README em português e confirma a entrega do pedido semeado.
   2. `npm run test:delivery` prova o login do entregador, a fila persistida, o código certo concluindo a mesma linha e o pedido, e o código errado sem concluir.
   3. Esse comando cita só o spec desse caminho.
 
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+
+- [ ] 03-01-PLAN.md — Comando Jest que prova só o caminho da entrega
+- [ ] 03-02-PLAN.md — README em português e espera do seed alinhada ao Compose
 
 ## Progress
 
@@ -73,5 +84,5 @@ Fases na ordem numérica: 1, 2, 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Demo que autentica | 1/1 | Complete    | 2026-10-05 |
-| 2. Entrega confirmada | 1/1 | In Progress|  |
-| 3. Percurso e prova | 0/TBD | Not started | - |
+| 2. Entrega confirmada | 1/1 | Complete    | 2026-10-11 |
+| 3. Percurso e prova | 0/2 | Not started | - |
