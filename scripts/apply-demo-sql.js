@@ -10,6 +10,8 @@ const RETRYABLE = new Set([
   'PROTOCOL_CONNECTION_LOST',
 ]);
 
+const MAX_ATTEMPTS = 130;
+
 function assertDatabaseName(name) {
   if (!/^[A-Za-z0-9_]+$/.test(name || '')) {
     throw new Error('DB_DATABASE invalido');
@@ -23,7 +25,11 @@ function isCharsetError(err) {
 }
 
 function isRetryable(err) {
-  return !!(err && RETRYABLE.has(err.code));
+  if (!err) return false;
+  if (RETRYABLE.has(err.code)) return true;
+  if (Number(err.errno) === 1045) return true;
+  if (err.code === 'ER_ACCESS_DENIED_ERROR') return true;
+  return false;
 }
 
 function report(err) {
@@ -103,7 +109,7 @@ async function connect() {
   let useCharset = true;
   let last;
 
-  for (let attempt = 1; attempt <= 30; attempt++) {
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     const options = {
       host: process.env.DB_HOST,
       port: Number(process.env.DB_PORT),
@@ -123,7 +129,7 @@ async function connect() {
       }
       if (!isRetryable(err)) throw err;
       last = err;
-      if (attempt < 30) {
+      if (attempt < MAX_ATTEMPTS) {
         await new Promise((resolve) => setTimeout(resolve, 1000));
       }
     }
