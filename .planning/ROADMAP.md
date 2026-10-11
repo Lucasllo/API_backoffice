@@ -72,8 +72,12 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
+**Wave 1**
 
 - [ ] 03-01-PLAN.md — Comando Jest que prova só o caminho da entrega
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 03-02-PLAN.md — README em português e espera do seed alinhada ao Compose
 
 ## Progress
