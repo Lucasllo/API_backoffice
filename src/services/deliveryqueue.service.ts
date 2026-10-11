@@ -27,7 +27,7 @@ export class DeliveryqueueService {
         deliveryQueue.shoppingId = idShopping;
         deliveryQueue.userDeliveryId = idDelivery;
         deliveryQueue.status = DeliveryStatus.Waiting;
-        this.deliveryQueueRepository.save(deliveryQueue);
+        await this.deliveryQueueRepository.save(deliveryQueue);
       } else {
         throw new BadRequestException('Shopping já usado');
       }
