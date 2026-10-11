@@ -340,7 +340,7 @@ A fase altera uma tabela que o `npm run seed` da fase 1 pode já ter criado.
 
 **What goes wrong:** A fase mexe em mapper, `validCode`, `DB_DATABASE`, healthcheck do seed, README ou `npm run test:delivery`.
 **Why it happens:** `CONCERNS.md` e o review da fase 1 listam esses itens ao lado da fila.
-**How to avoid:** Tocar `deliveryqueue.service.ts` e `seed/demo.sql`. `scripts/apply-demo-sql.js` só se o `PREPARE` do miolo falhar na execução. Os specs em `src/tests/**/deliveryqueue*.spec.ts` já falham antes desta fase (`Nest can't resolve dependencies of the DeliveryqueueService`). Não transformá-los na prova. A prova é a fase 3.
+**How to avoid:** Tocar `deliveryqueue.service.ts` e `seed/demo.sql`. Não editar `scripts/apply-demo-sql.js` para criar o UNIQUE. Os specs em `src/tests/**/deliveryqueue*.spec.ts` já falham antes desta fase (`Nest can't resolve dependencies of the DeliveryqueueService`). Não transformá-los na prova. A prova é a fase 3.
 
 ## Code Examples
 
@@ -460,18 +460,17 @@ Sem escrever o teste nem o README aqui:
 
 | # | Claim | Section | Risk if Wrong |
 |---|-------|---------|---------------|
-| A1 | `PREPARE`/`EXECUTE`/`DEALLOCATE` no corpo multi-statement de `seed/demo.sql` roda na mesma sessão do `mysql2` e o `@add_uq_deliveryqueue` sobrevive até o `EXECUTE`. [ASSUMED] | Pattern 3 | O `npm run seed` falha no miolo. Fallback: aplicar o `ALTER` em `scripts/apply-demo-sql.js`, ignorando errno `1061` (`ER_DUP_KEYNAME`) na segunda execução. Sem procedure e sem pacote novo. |
+| A1 | `PREPARE`/`EXECUTE`/`DEALLOCATE` no corpo multi-statement de `seed/demo.sql` roda na mesma sessão do `mysql2` e o `@add_uq_deliveryqueue` sobrevive até o `EXECUTE`. [ASSUMED] | Pattern 3 | Se o `npm run seed` falhar no miolo, parar e reportar. `UQ_deliveryqueue_shoppingId` continua só em `seed/demo.sql`: `UNIQUE KEY` no `CREATE` e o `PREPARE` depois do `COMMIT`. Não mover o `ALTER` para `scripts/apply-demo-sql.js`. |
 | A2 | Acrescentar `UNIQUE KEY` sem remover `IDX_deliveryqueue_shoppingId` não quebra `FK_deliveryqueue_shoppingId`. [ASSUMED] | Pattern 3 | Se o `ALTER` falhar por causa do índice antigo, manter os dois índices não é opcional: não dropar o `KEY` que a FK usa. Ajustar só o nome do UNIQUE. |
 | A3 | `QueryFailedError` expõe `code`/`errno` do `mysql2` porque o construtor copia `driverError`. O errno `1062` não foi reproduzido ao vivo nesta sessão. [ASSUMED] | Pitfall 4 | O `catch` não reconhece a duplicata e a corrida responde 500. O caminho sequencial, que lança antes do `save`, continua válido para DLVY-02. |
 
 **If this table is empty:** não se aplica. A1–A3 pedem confirmação na execução, não uma decisão nova de produto.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **O `PREPARE` do miolo sobrevive ao `connection.query` único?**
+1. **O `PREPARE` do miolo sobrevive ao `connection.query` único?** — RESOLVED
    - What we know: o corpo inteiro depois de `-- @schema` é um `query` com `multipleStatements: true`. MySQL 8.4 aceita `ALTER TABLE` como prepared statement.
-   - What's unclear: o comportamento do `mysql2` com variável de usuário nesse script ainda não foi executado aqui.
-   - Recommendation: tentar o SQL do Pattern 3. Se falhar, usar o fallback de A1 no aplicador. Não bloquear o plano.
+   - Resolution: `UQ_deliveryqueue_shoppingId` nasce em `seed/demo.sql`. O `CREATE TABLE` de `deliveryqueue` declara `UNIQUE KEY UQ_deliveryqueue_shoppingId`. Depois do `COMMIT`, o mesmo arquivo traz o `PREPARE stmt_uq_deliveryqueue` idempotente do Pattern 3. `npm run seed` aplica esse SQL duas vezes; a segunda execução deixa o pedido 1 sem linha em `deliveryqueue` e o índice único presente. `scripts/apply-demo-sql.js` não recebe o `ALTER`.
 
 ## Environment Availability
 
@@ -569,6 +568,6 @@ O seam `classify-confidence --provider webfetch --verified` devolveu `LOW` para 
 | `src/services/deliveryqueue.service.ts` | `await` no `create`; `catch` só de `ER_DUP_ENTRY`; `validateDelivery` atualiza a única linha carregada e só então conclui o pedido |
 | `seed/demo.sql` | `UNIQUE KEY` no `CREATE` de `deliveryqueue` e `ALTER` idempotente depois do `COMMIT` |
 
-Não tocar: `src/app.module.ts`, `src/controllers/deliveryqueue.controller.ts`, `src/repositories/deliveryQueue.repository.ts`, mappers, `package.json`, README, `src/tests/**/deliveryqueue*.spec.ts`.
+Não tocar: `src/app.module.ts`, `src/controllers/deliveryqueue.controller.ts`, `src/repositories/deliveryQueue.repository.ts`, mappers, `package.json`, README, `src/tests/**/deliveryqueue*.spec.ts`, `scripts/apply-demo-sql.js`.
 
-`scripts/apply-demo-sql.js` só entra se o `PREPARE` do miolo falhar (A1).
+O UNIQUE fica em `seed/demo.sql`. Não mover o `ALTER` para o aplicador.

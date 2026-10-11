@@ -12,7 +12,7 @@ Quem clona o repositório segue o README em português, sobe a API com MySQL e d
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Demo que autentica** - Exemplo de ambiente, schema e semente com entregador que autentica no pedido fictício
+- [x] **Phase 1: Demo que autentica** - Exemplo de ambiente, schema e semente com entregador que autentica no pedido fictício (completed 2026-10-05)
 - [ ] **Phase 2: Entrega confirmada** - Fila persistida, recusa do segundo enfileiramento e confirmação pelo código na mesma linha
 - [ ] **Phase 3: Percurso e prova** - README em português até a confirmação, e um comando Jest só desse caminho
 
@@ -20,7 +20,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 ### Phase 1: Demo que autentica
 
-**Goal:** Quem clona configura MySQL e a API a partir do exemplo e autentica o entregador no pedido fictício já semeado.
+**Goal:**  As a pessoa que clona o repositório, I want to configurar o MySQL e a API a partir do exemplo e autenticar o entregador no pedido fictício já semeado, so that o login da demo funciona sem segredo real.
 **Mode:** mvp
 **Depends on**: Nada (primeira fase)
 **Requirements**: ENV-02, SEED-01, SEED-02
@@ -30,7 +30,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Rodar a semente de novo deixa esse mesmo pedido sem fila.
   4. A senha do entregador semeado autentica em `POST /auth/loginDelivery`.
 
-**Plans:** 1/1 plans executed
+**Plans:** 1/1 plans complete
 
 Plans:
 - [x] 01-01-PLAN.md — Exemplo de ambiente, semente idempotente e login do entregador
@@ -47,7 +47,10 @@ Plans:
   3. `POST /deliveryqueue/validateDelivery/:idShopping/:codeShopping` com o código da semente atualiza essa mesma linha para `DeliveryStatus.Finished` e o pedido para `solicitacaoCompraStatus.Concluded`.
   4. Um código diferente de `verificationCode` não altera a fila nem o pedido.
 
-**Plans**: TBD
+**Plans:** 1 plan
+
+Plans:
+- [ ] 02-01-PLAN.md — Enfileirar o pedido 1, recusar o segundo POST e concluir a mesma linha pelo código
 
 ### Phase 3: Percurso e prova
 
@@ -69,6 +72,6 @@ Fases na ordem numérica: 1, 2, 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Demo que autentica | 1/1 | In Progress|  |
-| 2. Entrega confirmada | 0/TBD | Not started | - |
+| 1. Demo que autentica | 1/1 | Complete    | 2026-10-05 |
+| 2. Entrega confirmada | 0/1 | Not started | - |
 | 3. Percurso e prova | 0/TBD | Not started | - |
