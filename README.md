@@ -1,73 +1,83 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# API iFarma Backoffice
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Esta API é o backoffice iFarma. Você sobe a demo, entra como entregador e confirma a entrega do pedido semeado.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Primeira subida
 
-## Description
+Você precisa de Node.js e npm instalados.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
+Na raiz do repositório, instale as dependências:
 
 ```bash
-$ npm install
+npm install
 ```
 
-## Running the app
+Copie `.env.example` para `.env` sem editar. Não altere o nome do banco.
+
+Suba o MySQL. Com Docker, use o Compose, que sobe a imagem `mysql:8.4.11` de `compose.yaml`:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+docker compose -f compose.yaml up -d
 ```
 
-## Test
+Se você já tem um MySQL local que aceita o exemplo, use esse servidor.
+
+Semeie a demo e suba a API:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run seed
+npm run start:dev
 ```
 
-## Support
+`npm run start:dev` escuta a porta 3000.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Quadro do entregador
 
-## Stay in touch
+| Campo | Valor |
+| --- | --- |
+| E-mail | entregador.demo@example.com |
+| Senha | Entrega1! |
+| Pedido | 1 |
+| Código | 4821 |
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Confirmar a entrega
 
-## License
+Rode `npm run seed` de novo imediatamente antes dos quatro blocos, mesmo que você já tenha semeado na abertura.
 
-Nest is [MIT licensed](LICENSE).
+O Swagger está em http://localhost:3000/api. Os blocos valem no PowerShell ou no Git Bash, porque curl sem o sufixo .exe não é o cliente HTTP.
+
+### Login do entregador
+
+A resposta é HTTP 201 e um JSON com `token`.
+
+```bash
+curl.exe -sS -w "`nHTTP %{http_code}`n" -X POST http://localhost:3000/auth/loginDelivery -H "Content-Type: application/json" -d '{"email":"entregador.demo@example.com","password":"Entrega1!"}'
+```
+
+### Enfileirar o pedido 1
+
+Cole o token do login no lugar de TOKEN. A resposta é HTTP 201 e corpo vazio. A fila ficou em espera.
+
+```bash
+curl.exe -sS -w "`nHTTP %{http_code}`n" -X POST http://localhost:3000/deliveryqueue/1 -H "Authorization: Bearer TOKEN"
+```
+
+### Código 0000
+
+Cole o token do login no lugar de TOKEN. A resposta é HTTP 400 e `Dados invalidos`.
+
+```bash
+curl.exe -sS -w "`nHTTP %{http_code}`n" -X POST http://localhost:3000/deliveryqueue/validateDelivery/1/0000 -H "Authorization: Bearer TOKEN"
+```
+
+### Código 4821
+
+Cole o token do login no lugar de TOKEN. A resposta é HTTP 201 e corpo vazio. A mesma entrega ficou concluída.
+
+```bash
+curl.exe -sS -w "`nHTTP %{http_code}`n" -X POST http://localhost:3000/deliveryqueue/validateDelivery/1/4821 -H "Authorization: Bearer TOKEN"
+```
+
+## Prova do mesmo caminho
+
+`npm run test:delivery` repete o mesmo caminho. A confirmação que você vê é a dos quatro blocos. Depois do comando, o pedido fica concluído, então o próximo percurso manual começa de novo com `npm run seed`.
