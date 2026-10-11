@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Demo que autentica** - Exemplo de ambiente, schema e semente com entregador que autentica no pedido fictício (completed 2026-10-05)
 - [x] **Phase 2: Entrega confirmada** - Fila persistida, recusa do segundo enfileiramento e confirmação pelo código na mesma linha (completed 2026-10-11)
-- [ ] **Phase 3: Percurso e prova** - README em português até a confirmação, e um comando Jest só desse caminho
+- [x] **Phase 3: Percurso e prova** - README em português até a confirmação, e um comando Jest só desse caminho (completed 2026-10-11)
 
 ## Phase Details
 
@@ -69,7 +69,7 @@ Plans:
   2. `npm run test:delivery` prova o login do entregador, a fila persistida, o código certo concluindo a mesma linha e o pedido, e o código errado sem concluir.
   3. Esse comando cita só o spec desse caminho.
 
-**Plans:** 2/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 **Wave 1**
@@ -89,4 +89,4 @@ Fases na ordem numérica: 1, 2, 3
 |-------|----------------|--------|-----------|
 | 1. Demo que autentica | 1/1 | Complete    | 2026-10-05 |
 | 2. Entrega confirmada | 1/1 | Complete    | 2026-10-11 |
-| 3. Percurso e prova | 2/2 | In Progress|  |
+| 3. Percurso e prova | 2/2 | Complete    | 2026-10-11 |
