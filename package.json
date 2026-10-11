@@ -18,6 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:delivery": "node -r dotenv/config ./node_modules/jest/bin/jest.js --config ./test/jest-delivery.json --runTestsByPath ./test/delivery-path.spec.ts --runInBand",
     "seed": "node -r dotenv/config scripts/apply-demo-sql.js"
   },
   "dependencies": {
