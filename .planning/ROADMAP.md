@@ -69,12 +69,12 @@ Plans:
   2. `npm run test:delivery` prova o login do entregador, a fila persistida, o código certo concluindo a mesma linha e o pedido, e o código errado sem concluir.
   3. Esse comando cita só o spec desse caminho.
 
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 03-01-PLAN.md — Comando Jest que prova só o caminho da entrega
+- [x] 03-01-PLAN.md — Comando Jest que prova só o caminho da entrega
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -89,4 +89,4 @@ Fases na ordem numérica: 1, 2, 3
 |-------|----------------|--------|-----------|
 | 1. Demo que autentica | 1/1 | Complete    | 2026-10-05 |
 | 2. Entrega confirmada | 1/1 | Complete    | 2026-10-11 |
-| 3. Percurso e prova | 0/2 | Not started | - |
+| 3. Percurso e prova | 1/2 | In Progress|  |

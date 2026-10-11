@@ -26,7 +26,7 @@ Requisitos do portfólio. Cada um mapeia para uma fase do roadmap.
 
 ### Prova
 
-- [ ] **TEST-01**: Um comando Jest prova só esse caminho: login do entregador, fila persistida, código certo conclui a mesma linha e o pedido, código errado não conclui
+- [x] **TEST-01**: Um comando Jest prova só esse caminho: login do entregador, fila persistida, código certo conclui a mesma linha e o pedido, código errado não conclui
 
 ## v2 Requirements
 
@@ -67,7 +67,7 @@ Cada requisito v1 mapeia para uma fase.
 | DLVY-02 | Phase 2 | Complete |
 | DLVY-03 | Phase 2 | Complete |
 | DLVY-04 | Phase 2 | Complete |
-| TEST-01 | Phase 3 | Pending |
+| TEST-01 | Phase 3 | Complete |
 
 **Coverage:**
 

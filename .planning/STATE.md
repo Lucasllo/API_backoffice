@@ -1,19 +1,19 @@
 ---
 gsd_state_version: "1.0"
 current_phase: 03
-current_phase_name: percurso-e-prova
+current_phase_name: Percurso e prova
 status: executing
-stopped_at: Phase 3 context gathered
-last_updated: "2026-10-11T20:11:12.537Z"
+stopped_at: Completed 03-01-PLAN.md
+last_updated: "2026-10-11T21:18:07.768Z"
 last_activity: 2026-10-11
-last_activity_desc: Phase 02 complete, transitioned to Phase 3
-state_head: cda358c3fb28568862419d43bc4feae40a278e97
+last_activity_desc: Phase 03 execution started
+state_head: 05d2bc68200986bd109c94d8aca12d6d85613988
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 4
-  completed_plans: 2
-  percent: 50
+  completed_plans: 3
+  percent: 67
 ---
 
 # Project State
@@ -23,22 +23,22 @@ progress:
 See: .planning/PROJECT.md (updated 2026-10-11)
 
 **Core value:** Uma pessoa clona o repositório, segue o README e confirma a entrega de um pedido, e um comando de teste prova esse caminho.
-**Current focus:** Phase 3 — Percurso e prova
+**Current focus:** Phase 03 — Percurso e prova
 
 ## Current Position
 
-Phase: 03 (percurso-e-prova) — READY TO EXECUTE
-Plan: Not started
+Phase: 03 (Percurso e prova) — EXECUTING
+Plan: 2 of 2
 Status: Ready to execute
-Last activity: 2026-10-11 — Phase 02 complete, transitioned to Phase 3
+Last activity: 2026-10-11 — Phase 03 execution started
 
-Progress: [█████░░░░░] 50%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 2
+- Total plans completed: 3
 - Average duration: —
 - Total execution time: 0 hours
 
@@ -62,6 +62,7 @@ Progress: [█████░░░░░] 50%
 |------|----------|-------|-------|
 | Phase 01 P01 | 15min | 2 tasks | 7 files |
 | Phase 02 P01 | 13min | 3 tasks | 2 files |
+| Phase 03 P01 | 15min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,7 @@ Decisões registradas em PROJECT.md. As que afetam o roadmap:
 - [Phase 02]: O INSERT Waiting é aguardado antes do handler resolver. — A resposta HTTP só volta depois do save, então a linha existe para o próximo POST.
 - [Phase 02]: A chave única de shoppingId fica no SQL versionado, sem unique na entidade. — ENV=demo deixa synchronize desligado e o literal developmen permanece.
 - [Phase 02]: A confirmação grava Finished na linha carregada e só então conclui o pedido. — save de uma DeliveryQueueEntity nova inseria outra linha em vez de concluir a fila Waiting.
+- [Phase 03]: npm run test:delivery não usa --forceExit porque o processo encerrou depois de app.close().
 
 ### Pending Todos
 
@@ -86,7 +88,7 @@ Nenhum ainda.
 ### Blockers/Concerns
 
 - [Phase 2]: WR-03 fechou com `UQ_deliveryqueue_shoppingId` em `seed/demo.sql`. WR-01, WR-02 e WR-04 do code review da fase 1 continuam abertos.
-- [Phase 3]: `--forceExit` só entra se o pool do TypeORM segurar o processo depois de `app.close()`.
+- [Phase 3]: `--forceExit` não entrou em `test:delivery`. O processo encerrou depois de `app.close()`.
 
 ## Deferred Items
 
@@ -96,6 +98,6 @@ Nenhum ainda.
 
 ## Session Continuity
 
-Last session: 2026-10-11T19:07:02.606Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-percurso-e-prova/03-CONTEXT.md
+Last session: 2026-10-11T21:18:07.720Z
+Stopped at: Completed 03-01-PLAN.md
+Resume file: None
