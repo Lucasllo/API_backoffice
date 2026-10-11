@@ -1,44 +1,44 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 02
-current_phase_name: Entrega confirmada
-status: verifying
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-10-11T18:18:26.000Z"
+current_phase: 3
+current_phase_name: Percurso e prova
+status: planning
+stopped_at: Phase 3 context gathered
+last_updated: "2026-10-11T19:07:02.657Z"
 last_activity: 2026-10-11
-last_activity_desc: Phase 02 execution started
-state_head: fb62158bd5e86cc6369efb88394e8f3ff6c2c8a1
+last_activity_desc: Phase 02 complete, transitioned to Phase 3
+state_head: e547dd624fbbaf06cceba4cd24f4e3b6b99b6042
 progress:
   total_phases: 3
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 2
   completed_plans: 2
-  percent: 33
+  percent: 67
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-10-05)
+See: .planning/PROJECT.md (updated 2026-10-11)
 
 **Core value:** Uma pessoa clona o repositório, segue o README e confirma a entrega de um pedido, e um comando de teste prova esse caminho.
-**Current focus:** Phase 02 — Entrega confirmada
+**Current focus:** Phase 3 — Percurso e prova
 
 ## Current Position
 
-Phase: 02 (Entrega confirmada) — EXECUTING
-Plan: 1 of 1
-Status: Phase complete — ready for verification
-Last activity: 2026-10-11 — Phase 02 execution started
+Phase: 3 — Percurso e prova
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-10-11 — Phase 02 complete, transitioned to Phase 3
 
-Progress: [███░░░░░░░] 33%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 1
+- Total plans completed: 2
 - Average duration: —
 - Total execution time: 0 hours
 
@@ -48,6 +48,7 @@ Progress: [███░░░░░░░] 33%
 |-------|-------|-------|----------|
 | — | — | — | — |
 | 01 | 1 | - | - |
+| 02 | 1 | - | - |
 
 **Recent Trend:**
 
@@ -84,7 +85,7 @@ Nenhum ainda.
 
 ### Blockers/Concerns
 
-- [Phase 2]: Avisos WR-01 a WR-04 do code review da fase 1 permanecem abertos. WR-03 (`shoppingId` sem UNIQUE) volta a importar quando a fila for gravada.
+- [Phase 2]: WR-03 fechou com `UQ_deliveryqueue_shoppingId` em `seed/demo.sql`. WR-01, WR-02 e WR-04 do code review da fase 1 continuam abertos.
 - [Phase 3]: `--forceExit` só entra se o pool do TypeORM segurar o processo depois de `app.close()`.
 
 ## Deferred Items
@@ -95,6 +96,6 @@ Nenhum ainda.
 
 ## Session Continuity
 
-Last session: 2026-10-11T18:17:42.436Z
-Stopped at: Completed 02-01-PLAN.md
-Resume file: None
+Last session: 2026-10-11T19:07:02.606Z
+Stopped at: Phase 3 context gathered
+Resume file: .planning/phases/03-percurso-e-prova/03-CONTEXT.md
