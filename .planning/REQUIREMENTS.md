@@ -19,10 +19,10 @@ Requisitos do portfólio. Cada um mapeia para uma fase do roadmap.
 
 ### Entrega
 
-- [ ] **DLVY-01**: O entregador autenticado envia `POST /deliveryqueue/:idShopping` e a fila desse pedido fica gravada como `DeliveryStatus.Waiting`
-- [ ] **DLVY-02**: Um segundo `POST /deliveryqueue/:idShopping` no mesmo pedido responde `Shopping já usado` e não abre outra fila
-- [ ] **DLVY-03**: `POST /deliveryqueue/validateDelivery/:idShopping/:codeShopping` com o código da semente atualiza essa mesma linha para `DeliveryStatus.Finished` e o pedido para `solicitacaoCompraStatus.Concluded`
-- [ ] **DLVY-04**: Um código diferente de `verificationCode` não altera a fila nem o pedido
+- [x] **DLVY-01**: O entregador autenticado envia `POST /deliveryqueue/:idShopping` e a fila desse pedido fica gravada como `DeliveryStatus.Waiting`
+- [x] **DLVY-02**: Um segundo `POST /deliveryqueue/:idShopping` no mesmo pedido responde `Shopping já usado` e não abre outra fila
+- [x] **DLVY-03**: `POST /deliveryqueue/validateDelivery/:idShopping/:codeShopping` com o código da semente atualiza essa mesma linha para `DeliveryStatus.Finished` e o pedido para `solicitacaoCompraStatus.Concluded`
+- [x] **DLVY-04**: Um código diferente de `verificationCode` não altera a fila nem o pedido
 
 ### Prova
 
@@ -63,10 +63,10 @@ Cada requisito v1 mapeia para uma fase.
 | ENV-02 | Phase 1 | Complete |
 | SEED-01 | Phase 1 | Complete |
 | SEED-02 | Phase 1 | Complete |
-| DLVY-01 | Phase 2 | Pending |
-| DLVY-02 | Phase 2 | Pending |
-| DLVY-03 | Phase 2 | Pending |
-| DLVY-04 | Phase 2 | Pending |
+| DLVY-01 | Phase 2 | Complete |
+| DLVY-02 | Phase 2 | Complete |
+| DLVY-03 | Phase 2 | Complete |
+| DLVY-04 | Phase 2 | Complete |
 | TEST-01 | Phase 3 | Pending |
 
 **Coverage:**

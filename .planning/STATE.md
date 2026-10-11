@@ -1,18 +1,18 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 2
+current_phase: 02
 current_phase_name: Entrega confirmada
-status: executing
-stopped_at: Phase 2 planned, ready to execute
-last_updated: "2026-10-11T17:54:26.662Z"
+status: verifying
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-10-11T18:18:26.000Z"
 last_activity: 2026-10-11
-last_activity_desc: Phase 2 planned, ready to execute
-state_head: de8724f2c6e3e2f46fec1ef7e63f161bb1f447c0
+last_activity_desc: Phase 02 execution started
+state_head: fb62158bd5e86cc6369efb88394e8f3ff6c2c8a1
 progress:
   total_phases: 3
   completed_phases: 1
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
   percent: 33
 ---
 
@@ -23,14 +23,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-10-05)
 
 **Core value:** Uma pessoa clona o repositório, segue o README e confirma a entrega de um pedido, e um comando de teste prova esse caminho.
-**Current focus:** Phase 2 — Entrega confirmada
+**Current focus:** Phase 02 — Entrega confirmada
 
 ## Current Position
 
-Phase: 2 (Entrega confirmada) — READY TO EXECUTE
-Plan: Not started
-Status: Ready to execute
-Last activity: 2026-10-05 — Phase 01 complete, transitioned to Phase 2
+Phase: 02 (Entrega confirmada) — EXECUTING
+Plan: 1 of 1
+Status: Phase complete — ready for verification
+Last activity: 2026-10-11 — Phase 02 execution started
 
 Progress: [███░░░░░░░] 33%
 
@@ -60,6 +60,7 @@ Progress: [███░░░░░░░] 33%
 | Plan | Duration | Tasks | Files |
 |------|----------|-------|-------|
 | Phase 01 P01 | 15min | 2 tasks | 7 files |
+| Phase 02 P01 | 13min | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,9 @@ Decisões registradas em PROJECT.md. As que afetam o roadmap:
 - [Phase 01]: Hash bcrypt de Entrega1! gravado em seed/demo.sql pelo bcrypt 5.1.1 do projeto, custo 10.
 - [Phase 01]: npm run seed reaplica os ids 1 e deixa o pedido 1 sem linha em deliveryqueue.
 - [Phase 01]: `ENV=demo` deixa `synchronize` desligado; o literal `developmen` não foi editado.
+- [Phase 02]: O INSERT Waiting é aguardado antes do handler resolver. — A resposta HTTP só volta depois do save, então a linha existe para o próximo POST.
+- [Phase 02]: A chave única de shoppingId fica no SQL versionado, sem unique na entidade. — ENV=demo deixa synchronize desligado e o literal developmen permanece.
+- [Phase 02]: A confirmação grava Finished na linha carregada e só então conclui o pedido. — save de uma DeliveryQueueEntity nova inseria outra linha em vez de concluir a fila Waiting.
 
 ### Pending Todos
 
@@ -91,6 +95,6 @@ Nenhum ainda.
 
 ## Session Continuity
 
-Last session: 2026-10-05T23:42:48-03:00
-Stopped at: Phase 1 complete, ready to plan Phase 2
+Last session: 2026-10-11T18:17:42.436Z
+Stopped at: Completed 02-01-PLAN.md
 Resume file: None

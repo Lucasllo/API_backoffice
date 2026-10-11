@@ -47,10 +47,10 @@ Plans:
   3. `POST /deliveryqueue/validateDelivery/:idShopping/:codeShopping` com o código da semente atualiza essa mesma linha para `DeliveryStatus.Finished` e o pedido para `solicitacaoCompraStatus.Concluded`.
   4. Um código diferente de `verificationCode` não altera a fila nem o pedido.
 
-**Plans:** 1 plan
+**Plans:** 1/1 plans executed
 
 Plans:
-- [ ] 02-01-PLAN.md — Enfileirar o pedido 1, recusar o segundo POST e concluir a mesma linha pelo código
+- [x] 02-01-PLAN.md — Enfileirar o pedido 1, recusar o segundo POST e concluir a mesma linha pelo código
 
 ### Phase 3: Percurso e prova
 
@@ -73,5 +73,5 @@ Fases na ordem numérica: 1, 2, 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Demo que autentica | 1/1 | Complete    | 2026-10-05 |
-| 2. Entrega confirmada | 0/1 | Not started | - |
+| 2. Entrega confirmada | 1/1 | In Progress|  |
 | 3. Percurso e prova | 0/TBD | Not started | - |
