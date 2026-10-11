@@ -494,12 +494,11 @@ healthcheck:
 | A1 | O `201` sem corpo chega no Supertest com `res.text` igual a `''`. | Code Examples | O spec aperta a asserção demais. Ajustar a asserção para corpo vazio. Não mudar o service para devolver JSON. |
 | A2 | Bloco `curl.exe` com JSON em aspas simples cola no PowerShell e no Git Bash. `cmd.exe` não foi o alvo. | Pattern 3 | Quem cola no `cmd.exe` manda aspas simples no JSON e toma `400` de validação. O README pode ganhar uma frase dizendo PowerShell ou Git Bash. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **`--forceExit` entra ou não?**
+1. **`--forceExit` entra ou não?** — RESOLVED
    - What we know: `app.close()` chama `dataSource.destroy()`. O flag existe na CLI 29.7.0. D-08 proíbe colocá-lo antes do sintoma.
-   - What's unclear: Se o transporter do `MailingService` ou um timer do `mysql2` segura o processo depois do `destroy()`.
-   - Recommendation: Implementar sem o flag. Se `npm run test:delivery` não devolver o prompt com os testes verdes, acrescentar `--forceExit` só nesse script.
+   - Resolution: D-08. O script nasce sem `--forceExit`. O flag entra somente nesse script se, depois de `app.close()`, `npm run test:delivery` não devolver o prompt com os testes verdes. A dúvida sobre o transporter do `MailingService` ou um timer do `mysql2` não muda o procedimento: só o sintoma observado depois do `close()` autoriza o flag.
 
 ## Environment Availability
 
