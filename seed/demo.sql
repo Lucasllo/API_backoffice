@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `deliveryqueue` (
   `shoppingId` int unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_deliveryqueue_userDeliveryId` (`userDeliveryId`),
-  KEY `IDX_deliveryqueue_shoppingId` (`shoppingId`),
+  UNIQUE KEY `UQ_deliveryqueue_shoppingId` (`shoppingId`),
   CONSTRAINT `FK_deliveryqueue_userDeliveryId` FOREIGN KEY (`userDeliveryId`) REFERENCES `userdelivery` (`id`),
   CONSTRAINT `FK_deliveryqueue_shoppingId` FOREIGN KEY (`shoppingId`) REFERENCES `shoppings` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -100,3 +100,20 @@ INSERT INTO `userbackoffice` (`id`, `name`, `email`, `validatedEmail`, `password
 INSERT INTO `userdelivery` (`id`, `name`, `email`, `validatedEmail`, `password`, `createdAt`, `updatedAt`, `role`, `phoneNumber`, `cpf`, `numberVehicle`, `acceptTerms`, `active`, `validCode`) VALUES (1, 'Entregador Demo', 'entregador.demo@example.com', 1, '$2b$10$l8NjzXTt.61KYtXhFxjdROgyAuywnqx8Rl8XRI5x9zoVQ2lK/u0zG', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6), '4', '00000000000', '00000000000', 'DEMO-000', 1, 1, 0);
 INSERT INTO `shoppings` (`id`, `storeAddress`, `deliveryAddress`, `deliveryTime`, `duration`, `status`, `verificationCode`, `storeCode`, `value`, `modoPagamento`, `userEntityId`) VALUES (1, 'Rua das Acácias, 100', 'Rua do Comércio, 50', '30 min', '15 min', 6, '4821', '2312', '42.00', 1, 1);
 COMMIT;
+
+SET @add_uq_deliveryqueue = (
+  SELECT IF(
+    (
+      SELECT COUNT(*)
+      FROM information_schema.statistics
+      WHERE table_schema = DATABASE()
+        AND table_name = 'deliveryqueue'
+        AND index_name = 'UQ_deliveryqueue_shoppingId'
+    ) = 0,
+    'ALTER TABLE `deliveryqueue` ADD UNIQUE KEY `UQ_deliveryqueue_shoppingId` (`shoppingId`)',
+    'SELECT 1'
+  )
+);
+PREPARE stmt_uq_deliveryqueue FROM @add_uq_deliveryqueue;
+EXECUTE stmt_uq_deliveryqueue;
+DEALLOCATE PREPARE stmt_uq_deliveryqueue;

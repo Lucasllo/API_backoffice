@@ -27,7 +27,16 @@ export class DeliveryqueueService {
         deliveryQueue.shoppingId = idShopping;
         deliveryQueue.userDeliveryId = idDelivery;
         deliveryQueue.status = DeliveryStatus.Waiting;
-        await this.deliveryQueueRepository.save(deliveryQueue);
+        try {
+          await this.deliveryQueueRepository.save(deliveryQueue);
+        } catch (error) {
+          const code = error?.code ?? error?.driverError?.code;
+          const errno = Number(error?.errno ?? error?.driverError?.errno);
+          if (code === 'ER_DUP_ENTRY' || errno === 1062) {
+            throw new BadRequestException('Shopping já usado');
+          }
+          throw error;
+        }
       } else {
         throw new BadRequestException('Shopping já usado');
       }
