@@ -8,6 +8,17 @@ API HTTP do backoffice iFarma (Swagger intitulado Colibri): operadores de loja e
 
 Uma pessoa clona o repositório, segue o README e confirma a entrega de um pedido, e um comando de teste prova esse caminho.
 
+## Current State
+
+v1.0 (MVP) entregue em 2026-10-11. Quem clona segue o README, sobe o MySQL da demo e confirma a entrega do pedido 1. `npm run test:delivery` prova só esse caminho. O código TypeScript em `src/` e `test/` soma cerca de 3.400 linhas. A stack permanece NestJS 10, TypeORM, MySQL 8.4 e npm.
+
+O fechamento registrou um override: a verificação da fase 1 estava `stale`. As fases 2 e 3 passaram.
+
+## Next Milestone Goals
+
+- Fechar WR-01 da fase 1: o SQL da demo ignora `DB_DATABASE` e o fallback é desfeito no `USE` seguinte.
+- Fechar WR-02 da fase 1: `validCode` 0 permanece na linha como código de recuperação.
+
 ## Requirements
 
 ### Validated
@@ -18,11 +29,11 @@ Uma pessoa clona o repositório, segue o README e confirma a entrega de um pedid
 - ✓ Troca de status do pedido em `PATCH /shopping/updateStatus/:codeShopping/:codeStatus` — existing
 - ✓ Entrada na fila e confirmação por código em `src/controllers/deliveryqueue.controller.ts` (`POST /deliveryqueue/:idShopping`, `POST /deliveryqueue/validateDelivery/:idShopping/:codeShopping`) — existing
 - ✓ Itens do pedido em `GET /product/findByShopping/:id` — existing
-- ✓ Exemplo de ambiente para configurar MySQL e a API, sem segredo real e sem pacote novo no `package.json` — Phase 1
-- ✓ Dados de demonstração com loja, operador, entregador e um pedido já existente, porque a API não cria pedido — Phase 1
-- ✓ O caminho semeado enfileira o pedido e a confirmação pelo código conclui essa mesma entrega — Phase 2
-- ✓ README em português para clonar, configurar e subir a API até confirmar a entrega — Phase 3
-- ✓ Um comando de teste prova esse caminho e nada mais — Phase 3
+- ✓ Exemplo de ambiente para configurar MySQL e a API, sem segredo real e sem pacote novo no `package.json` — v1.0
+- ✓ Dados de demonstração com loja, operador, entregador e um pedido já existente, porque a API não cria pedido — v1.0
+- ✓ O caminho semeado enfileira o pedido e a confirmação pelo código conclui essa mesma entrega — v1.0
+- ✓ README em português para clonar, configurar e subir a API até confirmar a entrega — v1.0
+- ✓ Um comando de teste prova esse caminho e nada mais — v1.0
 
 ### Active
 
@@ -43,7 +54,7 @@ Monólito modular NestJS. Camadas em `src/controllers/`, `src/services/`, `src/r
 
 O fluxo que a API implementa é operacional, não de criação de pedido. `POST /shopping` lista. A fila nasce em `DeliveryqueueService.create` e a confirmação em `validateDelivery`. Desde a fase 2, o `save` de Waiting é aguardado, um segundo POST no mesmo pedido responde `Shopping já usado` pela chave `UQ_deliveryqueue_shoppingId`, e o código certo grava `Finished` na linha já carregada antes de marcar o pedido como `Concluded`.
 
-`npm run test:delivery` prova só o percurso da entrega. A suíte Jest do scaffold continua sem esse spec.
+`npm run test:delivery` prova só o percurso da entrega. A suíte Jest do scaffold continua sem esse spec. O v1.0 deixa esse caminho reproduzível a partir do README e do MySQL 8.4 da demo.
 
 ## Constraints
 
@@ -57,7 +68,7 @@ O fluxo que a API implementa é operacional, não de criação de pedido. `POST 
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Demo que sobe, não auditoria fechada | O repositório precisa ser apresentável; o mapa de riscos é maior do que um portfólio simples | — Pending |
+| Demo que sobe, não auditoria fechada | O repositório precisa ser apresentável; o mapa de riscos é maior do que um portfólio simples | ✓ v1.0 |
 | Caminho do pedido: semear, enfileirar, confirmar | A API não cria pedido; `POST /deliveryqueue/:idShopping` e `validateDelivery` são o fluxo que ela já implementa | — Phase 2 |
 | INSERT de Waiting aguardado | A linha precisa existir quando o handler resolve | — Phase 2 |
 | Unicidade de shoppingId no SQL da demo | `ENV=demo` não sincroniza; a entidade não ganhou `unique`; o literal `developmen` permanece | — Phase 2 |
@@ -66,7 +77,7 @@ O fluxo que a API implementa é operacional, não de criação de pedido. `POST 
 | `npm run test:delivery` sem `--forceExit` | O processo devolveu o prompt depois de `app.close()` | — Phase 3 |
 | Espera do seed em 130 tentativas de 1 s | Cobre o healthcheck do Compose. Errno 1045 volta a tentar. Errno 1044 fica no `CREATE DATABASE` | — Phase 3 |
 | README substitui o starter | O quadro cita só o entregador. O token do login é colado ao vivo. O texto não leva o segredo JWT | — Phase 3 |
-| Dívida só se bloquear a demo | Senha, cartão, isolamento e escala ficam de fora enquanto o caminho semeado funcionar | — Pending |
+| Dívida só se bloquear a demo | Senha, cartão, isolamento e escala ficam de fora enquanto o caminho semeado funcionar | ✓ v1.0 |
 | Hash bcrypt da senha da demo no SQL | O hash de `Entrega1!` (bcrypt 5.1.1, custo 10) fica em `seed/demo.sql`; o aplicador não chama bcrypt nem imprime senha | — Phase 1 |
 | `ENV=demo` mantém `synchronize` desligado | O literal `developmen` em `src/app.module.ts` não foi alterado | — Phase 1 |
 | Nenhum pacote novo no manifesto | O self-link `"api_ifarma": "file:"` pré-existente foi preservado; `npm run seed` não instalou dependência | — Phase 1 |
@@ -92,4 +103,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-10-11 after Phase 3*
+*Last updated: 2026-10-11 after v1.0 milestone*
