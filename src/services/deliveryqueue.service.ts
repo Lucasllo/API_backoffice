@@ -52,22 +52,29 @@ export class DeliveryqueueService {
   async validateDelivery(idShopping: number, verificationCode: string) {
     const shopping = await this.shoppingService.findOne(idShopping);
 
-    if (shopping != null) {
-      if (shopping.verificationCode != verificationCode) {
-        throw new BadRequestException('Dados invalidos');
-      }
-
-      const deliveryQueue = new DeliveryQueueEntity();
-      deliveryQueue.updatedAt = new Date();
-      deliveryQueue.status = DeliveryStatus.Finished;
-      await this.deliveryQueueRepository.save(deliveryQueue);
-      await this.shoppingService.updateStatus(
-        solicitacaoCompraStatus.Concluded,
-        shopping.id,
-      );
-    } else {
+    if (shopping == null) {
       throw new BadRequestException('Dados invalidos');
     }
+
+    if (shopping.verificationCode != verificationCode) {
+      throw new BadRequestException('Dados invalidos');
+    }
+
+    const deliveryQueueRows =
+      await this.deliveryQueueRepository.findByShopping(idShopping);
+
+    if (deliveryQueueRows.length != 1) {
+      throw new BadRequestException('Dados invalidos');
+    }
+
+    const deliveryQueue = deliveryQueueRows[0];
+    deliveryQueue.updatedAt = new Date();
+    deliveryQueue.status = DeliveryStatus.Finished;
+    await this.deliveryQueueRepository.save(deliveryQueue);
+    await this.shoppingService.updateStatus(
+      solicitacaoCompraStatus.Concluded,
+      shopping.id,
+    );
   }
 
   // remove(id: number) {
